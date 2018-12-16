@@ -10,6 +10,6 @@ before_script:
 script:
   - bin/test
 after_script:
-  - mix inch.report
+  - MIX_ENV=test mix inch.report
 addons:
-  postgresql: "11.1"
+  postgresql: "9.4"
