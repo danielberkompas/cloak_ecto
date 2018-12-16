@@ -1,4 +1,6 @@
 # Cloak.Ecto
+[![Coverage Status](https://coveralls.io/repos/github/danielberkompas/cloak_ecto/badge.svg?branch=master)](https://coveralls.io/github/danielberkompas/cloak_ecto?branch=master)
+[![Build Status](https://travis-ci.org/danielberkompas/cloak_ecto.svg?branch=master)](https://travis-ci.org/danielberkompas/cloak_ecto)
 
 **TODO: Add description**
 
