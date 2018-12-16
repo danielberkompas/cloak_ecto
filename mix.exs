@@ -44,7 +44,8 @@ defmodule Cloak.Ecto.MixProject do
       {:excoveralls, ">= 0.0.0", only: :test},
       {:ecto_sql, ">= 0.0.0", only: [:dev, :test]},
       {:postgrex, ">= 0.0.0", only: [:dev, :test]},
-      {:jason, ">= 0.0.0", only: [:dev, :test]}
+      {:jason, ">= 0.0.0", only: [:dev, :test]},
+      {:inch_ex, ">= 0.0.0", only: :test}
     ]
   end
 
