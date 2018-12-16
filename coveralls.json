@@ -1,0 +1,7 @@
+{
+  "skip_files": [
+    "lib/cloak_ecto.ex",
+    "lib/cloak_ecto/migrator/custom_cursor.ex",
+    "test/*"
+  ]
+}

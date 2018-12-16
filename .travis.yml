@@ -1,0 +1,15 @@
+language: elixir
+elixir:
+  - 1.7.4
+otp_release:
+  - 21.2
+before_script:
+  - mix local.hex --force
+  - mix deps.get --only test
+  - export CI="true"
+script:
+  - bin/test
+after_script:
+  - mix inch.report
+addons:
+  postgresql: "11.1"
