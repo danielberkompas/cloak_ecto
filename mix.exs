@@ -4,7 +4,7 @@ defmodule Cloak.Ecto.MixProject do
   def project do
     [
       app: :cloak_ecto,
-      version: "0.1.0",
+      version: "1.0.0-alpha.0",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
@@ -53,7 +53,15 @@ defmodule Cloak.Ecto.MixProject do
     [
       main: "readme",
       extras: [
-        "README.md"
+        "README.md",
+        "guides/how_to/install.md": [title: "Install Cloak"],
+        "guides/how_to/generate_keys.md": [title: "Generate Encryption Keys"],
+        "guides/how_to/encrypt_existing_data.md": [title: "Encrypt Existing Data"],
+        "guides/how_to/rotate_keys.md": [title: "Rotate Keys"]
+      ],
+      extra_section: "GUIDES",
+      groups_for_extras: [
+        "How To": ~r/how_to/
       ],
       groups_for_modules: [
         Behaviours: [

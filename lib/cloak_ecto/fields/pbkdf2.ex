@@ -4,11 +4,6 @@ if Code.ensure_loaded?(:pbkdf2) do
     A custom `Ecto.Type` for deriving a key for fields using
     [PBKDF2](https://en.wikipedia.org/wiki/PBKDF2).
 
-    PBKDF2 is **more secure** than `Cloak.Ecto.Fields.HMAC` and
-    `Cloak.Ecto.Fields.SHA256` because it uses [key
-    stretching](https://en.wikipedia.org/wiki/Key_stretching) to increase the
-    amount of time to compute hashes. This slows down brute-force attacks.
-
     ## Why
 
     If you store a hash of a field's value, you can then query on it as a
@@ -16,6 +11,14 @@ if Code.ensure_loaded?(:pbkdf2) do
     and always results in the same value, while secure encryption does not.
     Be warned, however, that hashing will expose which fields have the same
     value, because they will contain the same hash.
+
+    ## Security
+
+    PBKDF2 is **more secure** than `Cloak.Ecto.Fields.HMAC` and
+    `Cloak.Ecto.Fields.SHA256` because it uses [key
+    stretching](https://en.wikipedia.org/wiki/Key_stretching) to increase
+    the amount of time to compute hashes. This slows down brute-force
+    attacks.
 
     ## Dependency
 

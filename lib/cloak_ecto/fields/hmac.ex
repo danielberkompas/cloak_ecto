@@ -2,10 +2,6 @@ defmodule Cloak.Ecto.Fields.HMAC do
   @moduledoc """
   A custom `Ecto.Type` for hashing fields using `:crypto.hmac/3`.
 
-  HMAC is **more secure** than `Cloak.Ecto.Fields.SHA256`, because it uses a
-  secret to obfuscate the hash. This makes it harder to guess the value of
-  the field.
-
   ## Why
 
   If you store a hash of a field's value, you can then query on it as a proxy
@@ -13,6 +9,12 @@ defmodule Cloak.Ecto.Fields.HMAC do
   always results in the same value, while secure encryption does not. Be
   warned, however, that hashing will expose which fields have the same value,
   because they will contain the same hash.
+
+  ## Security
+
+  HMAC is **more secure** than `Cloak.Ecto.Fields.SHA256`, because it uses a
+  secret to obfuscate the hash. This makes it harder to guess the value of
+  the field.
 
   ## Configuration
 

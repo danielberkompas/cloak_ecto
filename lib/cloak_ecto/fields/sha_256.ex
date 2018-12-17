@@ -2,8 +2,6 @@ defmodule Cloak.Ecto.Fields.SHA256 do
   @moduledoc """
   An `Ecto.Type` which hashes the field value using the SHA256 algorithm.
 
-  For a more secure hashing method, see `Cloak.Ecto.Fields.HMAC`.
-
   ## Why
 
   If you store a hash of a field's value, you can then query on it as a proxy
@@ -11,6 +9,13 @@ defmodule Cloak.Ecto.Fields.SHA256 do
   always results in the same value, while secure encryption does not. Be
   warned, however, that hashing will expose which fields have the same value,
   because they will contain the same hash.
+
+  ## Security
+
+  For a more secure hashing method, see one of the following alternatives:
+
+  - `Cloak.Ecto.Fields.HMAC`
+  - `Cloak.Ecto.Fields.PBKDF2`
 
   ## Usage
 
