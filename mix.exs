@@ -34,7 +34,7 @@ defmodule Cloak.Ecto.MixProject do
 
   defp deps do
     [
-      {:cloak, github: "danielberkompas/cloak"},
+      {:cloak, "1.0.0-alpha.0"},
       {:ecto, "~> 3.0.0"},
       {:flow, "~> 0.14"},
       {:pbkdf2, "~> 2.0", optional: true},
