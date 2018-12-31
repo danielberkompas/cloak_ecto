@@ -67,7 +67,21 @@ defmodule Cloak.Ecto.MixProject do
         Behaviours: [
           Cloak.Ecto.CustomCursor
         ],
-        "Ecto Types": ~r/Fields/
+        "Ecto Types": [
+          Cloak.Ecto.Binary,
+          Cloak.Ecto.DateTime,
+          Cloak.Ecto.Date,
+          Cloak.Ecto.Float,
+          Cloak.Ecto.HMAC,
+          Cloak.Ecto.IntegerList,
+          Cloak.Ecto.Integer,
+          Cloak.Ecto.Map,
+          Cloak.Ecto.NaiveDateTime,
+          Cloak.Ecto.PBKDF2,
+          Cloak.Ecto.SHA256,
+          Cloak.Ecto.StringList,
+          Cloak.Ecto.Time
+        ]
       ]
     ]
   end

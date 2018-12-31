@@ -78,3 +78,8 @@ For complete usage instructions, see the [Hex documentation](https://hexdocs.pm/
   support user-specific encryption keys, due to limitations on the `Ecto.Type` 
   behaviour. However, you can still use Cloak's ciphers to implement these in your 
   application logic.
+
+## Use Without Ecto
+
+If you want to use `Cloak` without Ecto, see
+[`cloak`](https://hex.pm/packages/cloak) instead.

@@ -1,5 +1,3 @@
 defmodule Cloak.Ecto do
-  @moduledoc """
-  Documentation for Cloak.Ecto.
-  """
+  @moduledoc false
 end
