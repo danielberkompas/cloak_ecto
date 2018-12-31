@@ -1,4 +1,4 @@
-defmodule Cloak.Ecto.Fields.Binary do
+defmodule Cloak.Ecto.Binary do
   @moduledoc """
   An `Ecto.Type` to encrypt a binary field.
 
@@ -13,7 +13,7 @@ defmodule Cloak.Ecto.Fields.Binary do
   Define an `Encrypted.Binary` module in your project:
 
       defmodule MyApp.Encrypted.Binary do
-        use Cloak.Ecto.Fields.Binary, vault: MyApp.Vault
+        use Cloak.Ecto.Binary, vault: MyApp.Vault
       end
 
   Then, define the type of your desired fields:
@@ -28,7 +28,7 @@ defmodule Cloak.Ecto.Fields.Binary do
     opts = Keyword.merge(opts, vault: Keyword.fetch!(opts, :vault))
 
     quote location: :keep do
-      use Cloak.Ecto.Field, unquote(opts)
+      use Cloak.Ecto.Type, unquote(opts)
 
       def cast(value) do
         Ecto.Type.cast(:string, value)

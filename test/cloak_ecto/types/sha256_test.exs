@@ -1,7 +1,7 @@
-defmodule Cloak.Ecto.Fields.SHA256Test do
+defmodule Cloak.Ecto.SHA256Test do
   use ExUnit.Case
 
-  alias Cloak.Ecto.Fields.SHA256, as: Field
+  alias Cloak.Ecto.SHA256, as: Field
 
   describe ".cast/1" do
     test "leaves nil unchanged" do

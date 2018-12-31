@@ -26,7 +26,7 @@ defmodule MyApp.EctoSchema do
 end
 ```
 
-When Ecto writes the fields to the database, it encrypts the values into a
+When Ecto writes the fields to the database, Cloak encrypts the values into a
 binary blob, using a configured encryption algorithm chosen by you.
 
 ```elixir
@@ -41,7 +41,7 @@ VALUES ($1) RETURNING "id", "encrypted_field" [
 ]
 ```
 
-Likewise, when Ecto reads the encrypted blob out of the database, it will
+Likewise, when Ecto reads the encrypted blob out of the database, Cloak will
 automatically decrypt the value into the intended data type at runtime.
 
 ```elixir

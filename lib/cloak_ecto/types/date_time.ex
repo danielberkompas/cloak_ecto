@@ -1,4 +1,4 @@
-defmodule Cloak.Ecto.Fields.DateTime do
+defmodule Cloak.Ecto.DateTime do
   @moduledoc """
   An `Ecto.Type` to encrypt `DateTime` fields.
 
@@ -13,7 +13,7 @@ defmodule Cloak.Ecto.Fields.DateTime do
   Define an `Encrypted.DateTime` module in your project:
 
       defmodule MyApp.Encrypted.DateTime do
-        use Cloak.Ecto.Fields.DateTime, vault: MyApp.Vault
+        use Cloak.Ecto.DateTime, vault: MyApp.Vault
       end
 
   Then, define the type of your desired fields:
@@ -27,7 +27,7 @@ defmodule Cloak.Ecto.Fields.DateTime do
     opts = Keyword.merge(opts, vault: Keyword.fetch!(opts, :vault))
 
     quote do
-      use Cloak.Ecto.Field, unquote(opts)
+      use Cloak.Ecto.Type, unquote(opts)
 
       def cast(value), do: Ecto.Type.cast(:utc_datetime, value)
 

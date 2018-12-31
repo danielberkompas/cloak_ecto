@@ -1,8 +1,8 @@
-defmodule Cloak.Ecto.Fields.PBKDF2Test do
+defmodule Cloak.Ecto.PBKDF2Test do
   use ExUnit.Case
 
   defmodule Field do
-    use Cloak.Ecto.Fields.PBKDF2, otp_app: :cloak
+    use Cloak.Ecto.PBKDF2, otp_app: :cloak
 
     @impl true
     def init(_config) do

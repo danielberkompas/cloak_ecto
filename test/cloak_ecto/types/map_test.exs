@@ -1,8 +1,8 @@
-defmodule Cloak.Ecto.Fields.MapTest do
+defmodule Cloak.Ecto.MapTest do
   use ExUnit.Case
 
   defmodule Field do
-    use Cloak.Ecto.Fields.Map, vault: Cloak.Ecto.TestVault
+    use Cloak.Ecto.Map, vault: Cloak.Ecto.TestVault
   end
 
   @map %{"key" => "value"}

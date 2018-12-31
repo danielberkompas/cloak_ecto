@@ -1,4 +1,4 @@
-defmodule Cloak.Ecto.Field do
+defmodule Cloak.Ecto.Type do
   @moduledoc false
 
   @callback __cloak__ :: Keyword.t()
@@ -8,7 +8,7 @@ defmodule Cloak.Ecto.Field do
     label = opts[:label]
 
     quote location: :keep do
-      @behaviour Cloak.Ecto.Field
+      @behaviour Cloak.Ecto.Type
 
       @doc false
       def type, do: :binary

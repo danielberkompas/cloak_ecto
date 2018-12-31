@@ -1,4 +1,4 @@
-defmodule Cloak.Ecto.Fields.StringList do
+defmodule Cloak.Ecto.StringList do
   @moduledoc """
   An `Ecto.Type` to encrypt a list of strings.
 
@@ -20,7 +20,7 @@ defmodule Cloak.Ecto.Fields.StringList do
   Define an `Encrypted.StringList` module in your project:
 
       defmodule MyApp.Encrypted.StringList do
-        use Cloak.Ecto.Fields.StringList, vault: MyApp.Vault
+        use Cloak.Ecto.StringList, vault: MyApp.Vault
       end
 
   Then, define the type of your desired fields:
@@ -39,7 +39,7 @@ defmodule Cloak.Ecto.Fields.StringList do
     opts = Keyword.merge(opts, vault: Keyword.fetch!(opts, :vault))
 
     quote location: :keep do
-      use Cloak.Ecto.Field, unquote(opts)
+      use Cloak.Ecto.Type, unquote(opts)
 
       alias Cloak.Config
 

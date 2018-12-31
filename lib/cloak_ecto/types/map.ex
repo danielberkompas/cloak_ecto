@@ -1,4 +1,4 @@
-defmodule Cloak.Ecto.Fields.Map do
+defmodule Cloak.Ecto.Map do
   @moduledoc """
   An `Ecto.Type` to encrypt maps.
 
@@ -21,7 +21,7 @@ defmodule Cloak.Ecto.Fields.Map do
   Define an `Encrypted.Map` module in your project:
 
       defmodule MyApp.Encrypted.Map do
-        use Cloak.Ecto.Fields.Map, vault: MyApp.Vault
+        use Cloak.Ecto.Map, vault: MyApp.Vault
       end
 
   Then, define the type of your desired fields:
@@ -48,7 +48,7 @@ defmodule Cloak.Ecto.Fields.Map do
     opts = Keyword.merge(opts, vault: Keyword.fetch!(opts, :vault))
 
     quote location: :keep do
-      use Cloak.Ecto.Field, unquote(opts)
+      use Cloak.Ecto.Type, unquote(opts)
 
       alias Cloak.Config
 

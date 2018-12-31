@@ -76,10 +76,10 @@ Finally, add your vault to your supervision tree.
 
 ### Create Local Ecto Types
 
-For each type of data you want to encrypt, define a local Ecto type like so.
+For each type of data you want to encrypt, define a local Ecto type:
 
     defmodule MyApp.Encrypted.Binary do
-      use Cloak.Ecto.Fields.Binary, vault: MyApp.Vault
+      use Cloak.Ecto.Binary, vault: MyApp.Vault
     end
 
 You can find a complete list of available types in the "MODULES" documentation.
@@ -89,8 +89,8 @@ You can find a complete list of available types in the "MODULES" documentation.
 If you want to encrypt an existing schema, see the guide on [Encrypting
 Existing Data](encrypt_existing_data.html).
 
-If you're starting from scratch with a new `Ecto.Schema`, it's enough to
-generate the migration with the correct fields, for example:
+If you're starting from scratch with a new `Ecto.Schema`, generate your
+fields with the type `:binary`:
 
     create table(:users) do
       add :email, :binary
@@ -100,7 +100,7 @@ generate the migration with the correct fields, for example:
       timestamps()
     end
 
-The schema module should look like this:
+Your schema module should look like this:
 
     defmodule MyApp.Accounts.User do
       use Ecto.Schema
@@ -109,7 +109,7 @@ The schema module should look like this:
 
       schema "users" do
         field :email, MyApp.Encrypted.Binary
-        field :email_hash, Cloak.Fields.SHA256
+        field :email_hash, Cloak.Ecto.SHA256
         # ... other fields
 
         timestamps()
@@ -129,8 +129,8 @@ The schema module should look like this:
     end
 
 This example also shows how you would make a given field queryable by
-creating a mirrored `_hash` field. See `Cloak.Ecto.Fields.SHA256` or
-`Cloak.Ecto.Fields.HMAC` for more details.
+creating a mirrored `_hash` field. See `Cloak.Ecto.SHA256` or
+`Cloak.Ecto.HMAC` for more details.
 
 ## Usage
 

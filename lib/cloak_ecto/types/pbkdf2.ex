@@ -1,10 +1,10 @@
 if Code.ensure_loaded?(:pbkdf2) do
-  defmodule Cloak.Ecto.Fields.PBKDF2 do
+  defmodule Cloak.Ecto.PBKDF2 do
     @moduledoc """
     A custom `Ecto.Type` for deriving a key for fields using
     [PBKDF2](https://en.wikipedia.org/wiki/PBKDF2).
 
-    PBKDF2 is **more secure** than `Cloak.Ecto.Fields.HMAC` and
+    PBKDF2 is **more secure** than `Cloak.Ecto.HMAC` and
     `Cloak.Fields.SHA256` because it uses [key
     stretching](https://en.wikipedia.org/wiki/Key_stretching) to increase the
     amount of time to compute hashes. This slows down brute-force attacks.
@@ -29,7 +29,7 @@ if Code.ensure_loaded?(:pbkdf2) do
     Create a `PBKDF2` field in your project:
 
         defmodule MyApp.Hashed.PBKDF2 do
-          use Cloak.Ecto.Fields.PBKDF2, otp_app: :my_app
+          use Cloak.Ecto.PBKDF2, otp_app: :my_app
         end
 
     Then, configure it with a `:secret`, an `:algorithm`, the maximum `:size`
@@ -45,9 +45,9 @@ if Code.ensure_loaded?(:pbkdf2) do
     Or using the `init/1` callback to fetch configuration at runtime:
 
         defmodule MyApp.Hashed.PBKDF2 do
-          use Cloak.Ecto.Fields.PBKDF2, otp_app: :my_app
+          use Cloak.Ecto.PBKDF2, otp_app: :my_app
 
-          @impl Cloak.Ecto.Fields.PBKDF2
+          @impl Cloak.Ecto.PBKDF2
           def init(config) do
             config = Keyword.merge(config, [
               algorithm: :sha256,
@@ -97,7 +97,7 @@ if Code.ensure_loaded?(:pbkdf2) do
 
     ## Example
 
-        @impl Cloak.Ecto.Fields.PBKDF2
+        @impl Cloak.Ecto.PBKDF2
         def init(config) do
           config = Keyword.merge(config, [
             algorithm: :sha256,
@@ -114,7 +114,7 @@ if Code.ensure_loaded?(:pbkdf2) do
       otp_app = Keyword.fetch!(opts, :otp_app)
 
       quote do
-        @behaviour Cloak.Ecto.Fields.PBKDF2
+        @behaviour Cloak.Ecto.PBKDF2
         @behaviour Ecto.Type
         @algorithms ~w[
           md4
@@ -127,7 +127,7 @@ if Code.ensure_loaded?(:pbkdf2) do
           sha512
         ]a
 
-        @impl Cloak.Ecto.Fields.PBKDF2
+        @impl Cloak.Ecto.PBKDF2
         def init(config) do
           defaults = [algorithm: :sha256, iterations: 10_000, size: 32]
 

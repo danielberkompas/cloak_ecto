@@ -1,8 +1,8 @@
-defmodule Cloak.Ecto.Fields.NaiveDateTimeTest do
+defmodule Cloak.Ecto.NaiveDateTimeTest do
   use ExUnit.Case, async: true
 
   defmodule Field do
-    use Cloak.Ecto.Fields.NaiveDateTime, vault: Cloak.Ecto.TestVault
+    use Cloak.Ecto.NaiveDateTime, vault: Cloak.Ecto.TestVault
   end
 
   setup_all do

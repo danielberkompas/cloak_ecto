@@ -1,8 +1,8 @@
-defmodule Cloak.Ecto.Fields.BinaryTest do
+defmodule Cloak.Ecto.BinaryTest do
   use ExUnit.Case
 
   defmodule Field do
-    use Cloak.Ecto.Fields.Binary, vault: Cloak.Ecto.TestVault
+    use Cloak.Ecto.Binary, vault: Cloak.Ecto.TestVault
   end
 
   @invalid_types [%{}, 123, 123.33, []]

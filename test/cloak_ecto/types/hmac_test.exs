@@ -1,8 +1,8 @@
-defmodule Cloak.Ecto.Fields.HMACTest do
+defmodule Cloak.Ecto.HMACTest do
   use ExUnit.Case
 
   defmodule HMAC do
-    use Cloak.Ecto.Fields.HMAC, otp_app: :cloak
+    use Cloak.Ecto.HMAC, otp_app: :cloak
 
     @impl true
     def init(_config) do

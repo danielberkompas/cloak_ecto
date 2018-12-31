@@ -1,8 +1,8 @@
-defmodule Cloak.Ecto.Fields.FloatTest do
+defmodule Cloak.Ecto.FloatTest do
   use ExUnit.Case
 
   defmodule Field do
-    use Cloak.Ecto.Fields.Float, vault: Cloak.Ecto.TestVault
+    use Cloak.Ecto.Float, vault: Cloak.Ecto.TestVault
   end
 
   test ".type is :binary" do

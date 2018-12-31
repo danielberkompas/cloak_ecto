@@ -1,8 +1,8 @@
-defmodule Cloak.Ecto.Fields.StringListTest do
+defmodule Cloak.Ecto.StringListTest do
   use ExUnit.Case
 
   defmodule Field do
-    use Cloak.Ecto.Fields.StringList, vault: Cloak.Ecto.TestVault
+    use Cloak.Ecto.StringList, vault: Cloak.Ecto.TestVault
   end
 
   @list ["A", "list", "of", "strings"]

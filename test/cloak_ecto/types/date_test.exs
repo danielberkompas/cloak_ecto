@@ -1,8 +1,8 @@
-defmodule Cloak.Ecto.Fields.DateTest do
+defmodule Cloak.Ecto.DateTest do
   use ExUnit.Case, async: true
 
   defmodule Field do
-    use Cloak.Ecto.Fields.Date, vault: Cloak.Ecto.TestVault
+    use Cloak.Ecto.Date, vault: Cloak.Ecto.TestVault
   end
 
   test ".type is :binary" do

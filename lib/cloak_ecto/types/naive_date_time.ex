@@ -1,4 +1,4 @@
-defmodule Cloak.Ecto.Fields.NaiveDateTime do
+defmodule Cloak.Ecto.NaiveDateTime do
   @moduledoc """
   An `Ecto.Type` to encrypt `NaiveDateTime` fields.
 
@@ -13,7 +13,7 @@ defmodule Cloak.Ecto.Fields.NaiveDateTime do
   Define an `Encrypted.NaiveDateTime` module in your project:
 
       defmodule MyApp.Encrypted.NaiveDateTime do
-        use Cloak.Ecto.Fields.NaiveDateTime, vault: MyApp.Vault
+        use Cloak.Ecto.NaiveDateTime, vault: MyApp.Vault
       end
 
   Then, define the type of your desired fields:
@@ -28,7 +28,7 @@ defmodule Cloak.Ecto.Fields.NaiveDateTime do
     opts = Keyword.merge(opts, vault: Keyword.fetch!(opts, :vault))
 
     quote location: :keep do
-      use Cloak.Ecto.Field, unquote(opts)
+      use Cloak.Ecto.Type, unquote(opts)
 
       def cast(value), do: Ecto.Type.cast(:naive_datetime, value)
 

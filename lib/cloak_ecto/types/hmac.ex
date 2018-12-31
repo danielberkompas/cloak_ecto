@@ -1,4 +1,4 @@
-defmodule Cloak.Ecto.Fields.HMAC do
+defmodule Cloak.Ecto.HMAC do
   @moduledoc """
   A custom `Ecto.Type` for hashing fields using `:crypto.hmac/3`.
 
@@ -12,7 +12,7 @@ defmodule Cloak.Ecto.Fields.HMAC do
 
   ## Security
 
-  HMAC is **more secure** than `Cloak.Ecto.Fields.SHA256`, because it uses a
+  HMAC is **more secure** than `Cloak.Ecto.SHA256`, because it uses a
   secret to obfuscate the hash. This makes it harder to guess the value of
   the field.
 
@@ -21,7 +21,7 @@ defmodule Cloak.Ecto.Fields.HMAC do
   Create an `HMAC` field in your project:
 
       defmodule MyApp.Hashed.HMAC do
-        use Cloak.Ecto.Fields.HMAC, otp_app: :my_app
+        use Cloak.Ecto.HMAC, otp_app: :my_app
       end
 
   Then, configure it with a `:secret` and `:algorithm`, either using
@@ -34,9 +34,9 @@ defmodule Cloak.Ecto.Fields.HMAC do
   Or using the `init/1` callback to fetch configuration at runtime:
 
       defmodule MyApp.Hashed.HMAC do
-        use Cloak.Ecto.Fields.HMAC, otp_app: :my_app
+        use Cloak.Ecto.HMAC, otp_app: :my_app
 
-        @impl Cloak.Ecto.Fields.HMAC
+        @impl Cloak.Ecto.HMAC
         def init(config) do
           config = Keyword.merge(config, [
             algorithm: :sha512,
@@ -102,7 +102,7 @@ defmodule Cloak.Ecto.Fields.HMAC do
     otp_app = Keyword.fetch!(opts, :otp_app)
 
     quote do
-      @behaviour Cloak.Ecto.Fields.HMAC
+      @behaviour Cloak.Ecto.HMAC
       @behaviour Ecto.Type
       @algorithms ~w[
         md5
@@ -114,7 +114,7 @@ defmodule Cloak.Ecto.Fields.HMAC do
         sha512
       ]a
 
-      @impl Cloak.Ecto.Fields.HMAC
+      @impl Cloak.Ecto.HMAC
       def init(config) do
         {:ok, config}
       end

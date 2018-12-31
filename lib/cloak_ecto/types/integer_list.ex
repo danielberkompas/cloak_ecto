@@ -1,4 +1,4 @@
-defmodule Cloak.Ecto.Fields.IntegerList do
+defmodule Cloak.Ecto.IntegerList do
   @moduledoc """
   An `Ecto.Type` to encrypt a list of integers.
 
@@ -20,7 +20,7 @@ defmodule Cloak.Ecto.Fields.IntegerList do
   Define an `Encrypted.IntegerList` module in your project:
 
       defmodule MyApp.Encrypted.IntegerList do
-        use Cloak.Ecto.Fields.IntegerList, vault: MyApp.Vault
+        use Cloak.Ecto.IntegerList, vault: MyApp.Vault
       end
 
   Then, define the type of your desired fields:
@@ -35,7 +35,7 @@ defmodule Cloak.Ecto.Fields.IntegerList do
     opts = Keyword.merge(opts, vault: Keyword.fetch!(opts, :vault))
 
     quote location: :keep do
-      use Cloak.Ecto.Field, unquote(opts)
+      use Cloak.Ecto.Type, unquote(opts)
 
       alias Cloak.Config
 

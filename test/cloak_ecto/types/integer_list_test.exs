@@ -1,8 +1,8 @@
-defmodule Cloak.Ecto.Fields.IntegerListTest do
+defmodule Cloak.Ecto.IntegerListTest do
   use ExUnit.Case
 
   defmodule Field do
-    use Cloak.Ecto.Fields.IntegerList, vault: Cloak.Ecto.TestVault
+    use Cloak.Ecto.IntegerList, vault: Cloak.Ecto.TestVault
   end
 
   @list [1, 2, 3, 4, 5]

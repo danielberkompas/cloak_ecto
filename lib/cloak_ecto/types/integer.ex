@@ -1,4 +1,4 @@
-defmodule Cloak.Ecto.Fields.Integer do
+defmodule Cloak.Ecto.Integer do
   @moduledoc """
   An `Ecto.Type` to encrypt integer fields.
 
@@ -13,7 +13,7 @@ defmodule Cloak.Ecto.Fields.Integer do
   Define an `Encrypted.Integer` module in your project:
 
       defmodule MyApp.Encrypted.Integer do
-        use Cloak.Ecto.Fields.Integer, vault: MyApp.Vault
+        use Cloak.Ecto.Integer, vault: MyApp.Vault
       end
 
   Then, define the type of your desired fields:
@@ -28,7 +28,7 @@ defmodule Cloak.Ecto.Fields.Integer do
     opts = Keyword.merge(opts, vault: Keyword.fetch!(opts, :vault))
 
     quote do
-      use Cloak.Ecto.Field, unquote(opts)
+      use Cloak.Ecto.Type, unquote(opts)
 
       def cast(value) do
         Ecto.Type.cast(:integer, value)

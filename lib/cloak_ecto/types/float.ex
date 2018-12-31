@@ -1,4 +1,4 @@
-defmodule Cloak.Ecto.Fields.Float do
+defmodule Cloak.Ecto.Float do
   @moduledoc """
   An `Ecto.Type` to encrypt a float field.
 
@@ -13,7 +13,7 @@ defmodule Cloak.Ecto.Fields.Float do
   Define an `Encrypted.Float` module in your project:
 
       defmodule MyApp.Encrypted.Float do
-        use Cloak.Ecto.Fields.Float, vault: MyApp.Vault
+        use Cloak.Ecto.Float, vault: MyApp.Vault
       end
 
   Then, define the type of your desired fields:
@@ -27,7 +27,7 @@ defmodule Cloak.Ecto.Fields.Float do
     opts = Keyword.merge(opts, vault: Keyword.fetch!(opts, :vault))
 
     quote do
-      use Cloak.Ecto.Field, unquote(opts)
+      use Cloak.Ecto.Type, unquote(opts)
 
       def cast(value) do
         Ecto.Type.cast(:float, value)

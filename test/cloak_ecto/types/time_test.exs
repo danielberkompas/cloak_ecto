@@ -1,8 +1,8 @@
-defmodule Cloak.Ecto.Fields.TimeTest do
+defmodule Cloak.Ecto.TimeTest do
   use ExUnit.Case, async: true
 
   defmodule Field do
-    use Cloak.Ecto.Fields.Time, vault: Cloak.Ecto.TestVault
+    use Cloak.Ecto.Time, vault: Cloak.Ecto.TestVault
   end
 
   setup_all do

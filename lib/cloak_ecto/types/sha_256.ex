@@ -1,4 +1,4 @@
-defmodule Cloak.Ecto.Fields.SHA256 do
+defmodule Cloak.Ecto.SHA256 do
   @moduledoc """
   An `Ecto.Type` which hashes the field value using the SHA256 algorithm.
 
@@ -14,8 +14,8 @@ defmodule Cloak.Ecto.Fields.SHA256 do
 
   For a more secure hashing method, see one of the following alternatives:
 
-  - `Cloak.Ecto.Fields.HMAC`
-  - `Cloak.Ecto.Fields.PBKDF2`
+  - `Cloak.Ecto.HMAC`
+  - `Cloak.Ecto.PBKDF2`
 
   ## Usage
 
@@ -24,7 +24,7 @@ defmodule Cloak.Ecto.Fields.SHA256 do
 
       schema "table" do
         field :field_name, MyApp.Encrypted.Binary
-        field :field_name_hash, Cloak.Ecto.Fields.SHA256
+        field :field_name_hash, Cloak.Ecto.SHA256
       end
 
   Ensure that the hash is updated whenever the target field changes with the
