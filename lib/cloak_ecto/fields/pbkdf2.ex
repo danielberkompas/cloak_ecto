@@ -4,6 +4,11 @@ if Code.ensure_loaded?(:pbkdf2) do
     A custom `Ecto.Type` for deriving a key for fields using
     [PBKDF2](https://en.wikipedia.org/wiki/PBKDF2).
 
+    PBKDF2 is **more secure** than `Cloak.Ecto.Fields.HMAC` and
+    `Cloak.Fields.SHA256` because it uses [key
+    stretching](https://en.wikipedia.org/wiki/Key_stretching) to increase the
+    amount of time to compute hashes. This slows down brute-force attacks.
+
     ## Why
 
     If you store a hash of a field's value, you can then query on it as a
@@ -11,14 +16,6 @@ if Code.ensure_loaded?(:pbkdf2) do
     and always results in the same value, while secure encryption does not.
     Be warned, however, that hashing will expose which fields have the same
     value, because they will contain the same hash.
-
-    ## Security
-
-    PBKDF2 is **more secure** than `Cloak.Ecto.Fields.HMAC` and
-    `Cloak.Ecto.Fields.SHA256` because it uses [key
-    stretching](https://en.wikipedia.org/wiki/Key_stretching) to increase
-    the amount of time to compute hashes. This slows down brute-force
-    attacks.
 
     ## Dependency
 
@@ -42,7 +39,8 @@ if Code.ensure_loaded?(:pbkdf2) do
         config :my_app, MyApp.Hashed.PBKDF2,
           algorithm: :sha256,
           iterations: 10_000,
-          secret: "secret"
+          secret: "secret",
+          size: 64
 
     Or using the `init/1` callback to fetch configuration at runtime:
 
@@ -169,31 +167,35 @@ if Code.ensure_loaded?(:pbkdf2) do
         end
 
         defp validate_config(config) do
+          m = inspect(__MODULE__)
+
           unless is_binary(config[:secret]) do
             secret = inspect(config[:secret])
 
-            raise Cloak.InvalidConfig, "#{secret} is an invalid secret for #{inspect(__MODULE__)}"
+            raise Cloak.InvalidConfig, "#{secret} is an invalid secret for #{m}"
           end
 
           unless config[:algorithm] in @algorithms do
             algo = inspect(config[:algorithm])
 
             raise Cloak.InvalidConfig,
-                  "#{algo} is an invalid hash algorithm for #{inspect(__MODULE__)}"
+                  "#{algo} is an invalid hash algorithm for #{m}, must be in #{
+                    inspect(@algorithms)
+                  }"
           end
 
           unless is_integer(config[:iterations]) && config[:iterations] > 0 do
             iterations = inspect(config[:iterations])
 
             raise Cloak.InvalidConfig,
-                  "#{iterations} must be a positive integer for #{inspect(__MODULE__)}"
+                  "Iterations must be a positive integer for #{m}, got: #{iterations}"
           end
 
           unless is_integer(config[:size]) && config[:size] > 0 do
             size = inspect(config[:size])
 
             raise Cloak.InvalidConfig,
-                  "#{size} should be a positive integer for #{inspect(__MODULE__)}"
+                  "Size should be a positive integer for #{m}, got: #{size}"
           end
 
           config
