@@ -16,6 +16,7 @@ defmodule Cloak.Ecto.MixProject do
       ],
       source_url: "https://github.com/danielberkompas/cloak_ecto",
       description: "Encrypted fields for Ecto",
+      package: package(),
       deps: deps(),
       docs: docs(),
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -44,6 +45,17 @@ defmodule Cloak.Ecto.MixProject do
       {:postgrex, ">= 0.0.0", only: [:dev, :test]},
       {:jason, ">= 0.0.0", only: [:dev, :test]},
       {:inch_ex, github: "rrrene/inch_ex", only: :test}
+    ]
+  end
+
+  defp package do
+    [
+      files: ["lib", "mix.exs", "README.md", "CHANGELOG.md", "LICENSE"],
+      maintainers: ["Daniel Berkompas"],
+      licenses: ["MIT"],
+      links: %{
+        "GitHub" => "https://github.com/danielberkompas/cloak_ecto"
+      }
     ]
   end
 
