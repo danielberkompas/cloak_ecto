@@ -23,7 +23,6 @@ defmodule Cloak.Ecto.MixProject do
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
   def application do
     [
       extra_applications: [:logger]
@@ -33,7 +32,6 @@ defmodule Cloak.Ecto.MixProject do
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_env), do: ["lib"]
 
-  # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
       {:cloak, github: "danielberkompas/cloak"},
