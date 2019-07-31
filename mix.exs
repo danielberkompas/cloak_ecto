@@ -4,7 +4,7 @@ defmodule Cloak.Ecto.MixProject do
   def project do
     [
       app: :cloak_ecto,
-      version: "1.0.0-alpha.0",
+      version: "1.0.0",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
@@ -35,7 +35,7 @@ defmodule Cloak.Ecto.MixProject do
 
   defp deps do
     [
-      {:cloak, "1.0.0-alpha.0"},
+      {:cloak, "1.0.0"},
       {:ecto, "~> 3.0.0"},
       {:flow, "~> 0.14"},
       {:pbkdf2, "~> 2.0", optional: true},
@@ -44,7 +44,7 @@ defmodule Cloak.Ecto.MixProject do
       {:ecto_sql, ">= 0.0.0", only: [:dev, :test]},
       {:postgrex, ">= 0.0.0", only: [:dev, :test]},
       {:jason, ">= 0.0.0", only: [:dev, :test]},
-      {:inch_ex, github: "rrrene/inch_ex", only: :test}
+      {:inch_ex, ">= 0.0.0", only: :test}
     ]
   end
 

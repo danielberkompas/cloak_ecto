@@ -6,7 +6,7 @@ This guide will walk you through installing `Cloak.Ecto` in your project.
 
 First, add `:cloak_ecto` to your dependencies in `mix.exs`:
 
-    {:cloak_ecto, "~> 1.0.0-alpha.0"}
+    {:cloak_ecto, "~> 1.0.0"}
 
 Run `mix deps.get` to fetch the dependency. Since `:cloak_ecto` relies
 on `:cloak`, the `:cloak` package will also be installed.
