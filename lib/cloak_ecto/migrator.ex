@@ -22,9 +22,8 @@ defmodule Cloak.Ecto.Migrator do
 
     repo
     |> CursorStream.new(schema, 100)
-    |> Flow.from_enumerable(stages: System.schedulers_online())
-    |> Flow.map(&migrate_row(&1, repo, schema, fields))
-    |> Flow.run()
+    |> Task.async_stream(&migrate_row(&1, repo, schema, fields))
+    |> Stream.run()
   end
 
   defp migrate_row(id, repo, schema, fields) do
