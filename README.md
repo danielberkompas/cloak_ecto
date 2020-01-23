@@ -11,8 +11,14 @@ encryption.
 ## Usage
 
 `Cloak.Ecto` helps you create `Ecto.Type` modules which automatically encrypt
-and decrypt your data. You simply set the type of your fields, and
+and decrypt your data. You simply define a type and set the type of your fields, and
 `Cloak.Ecto` handles the rest.
+
+```elixir
+defmodule MyApp.Encrypted.Binary do
+  use Cloak.Ecto.Binary, vault: MyApp.Vault
+end
+```
 
 ```elixir
 defmodule MyApp.EctoSchema do
