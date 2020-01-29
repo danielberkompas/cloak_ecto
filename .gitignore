@@ -22,3 +22,5 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 cloak_ecto-*.tar
 
+# Ignore ElixirLS
+.elixir_ls/
