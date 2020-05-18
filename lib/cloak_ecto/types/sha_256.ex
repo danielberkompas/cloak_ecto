@@ -68,4 +68,11 @@ defmodule Cloak.Ecto.SHA256 do
   def hash(value) do
     :crypto.hash(:sha256, value)
   end
+
+  def equal?(value1, value2) do
+    value1 = if String.valid?(value1), do: hash(value1), else: value1
+    value2 = if String.valid?(value2), do: hash(value2), else: value2
+
+    value1 == value2
+  end
 end
