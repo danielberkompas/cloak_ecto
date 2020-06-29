@@ -5,6 +5,10 @@ defmodule Cloak.Ecto.StringListTest do
     use Cloak.Ecto.StringList, vault: Cloak.Ecto.TestVault
   end
 
+  defmodule ClosureField do
+    use Cloak.Ecto.StringList, vault: Cloak.Ecto.TestVault, closure: true
+  end
+
   @list ["A", "list", "of", "strings"]
 
   test ".type is :binary" do
@@ -21,6 +25,10 @@ defmodule Cloak.Ecto.StringListTest do
 
   test ".cast accepts lists" do
     assert {:ok, ["hello", "world"]} = Field.cast(["hello", "world"])
+  end
+
+  test ".cast unwraps closures" do
+    assert {:ok, @list} = Field.cast(fn -> @list end)
   end
 
   test ".before_encrypt converts the list to a JSON string" do
@@ -40,5 +48,12 @@ defmodule Cloak.Ecto.StringListTest do
   test ".load decrypts the list" do
     {:ok, ciphertext} = Field.dump(@list)
     assert {:ok, @list} = Field.load(ciphertext)
+  end
+
+  test ".load with closure option wraps decrypted value" do
+    {:ok, ciphertext} = ClosureField.dump(@list)
+    assert {:ok, closure} = ClosureField.load(ciphertext)
+    assert is_function(closure, 0)
+    assert @list = closure.()
   end
 end

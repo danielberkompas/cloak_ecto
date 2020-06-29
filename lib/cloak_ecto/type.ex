@@ -6,6 +6,7 @@ defmodule Cloak.Ecto.Type do
   defmacro __using__(opts) do
     vault = Keyword.fetch!(opts, :vault)
     label = opts[:label]
+    closure = !!opts[:closure]
 
     quote location: :keep do
       @behaviour Cloak.Ecto.Type
@@ -16,6 +17,10 @@ defmodule Cloak.Ecto.Type do
       @doc false
       def cast(nil) do
         {:ok, nil}
+      end
+
+      def cast(closure) when is_function(closure, 0) do
+        cast(closure.())
       end
 
       def cast(value) do
@@ -46,7 +51,11 @@ defmodule Cloak.Ecto.Type do
       def load(value) do
         with {:ok, value} <- decrypt(value) do
           value = after_decrypt(value)
-          {:ok, value}
+          if unquote(closure) do
+            {:ok, fn -> value end}
+          else
+            {:ok, value}
+          end
         else
           _other ->
             :error
@@ -63,7 +72,7 @@ defmodule Cloak.Ecto.Type do
 
       @doc false
       def __cloak__ do
-        [vault: unquote(vault), label: unquote(label)]
+        [vault: unquote(vault), label: unquote(label), closure: unquote(closure)]
       end
 
       defp encrypt(plaintext) do
