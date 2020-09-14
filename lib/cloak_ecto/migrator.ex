@@ -69,8 +69,8 @@ defmodule Cloak.Ecto.Migrator do
     false
   end
 
-  defp cloak_field?({_field, {:array, _type}}) do
-    false
+  defp cloak_field?({_field, {:array, type}}) do
+    Code.ensure_loaded?(type) && function_exported?(type, :__cloak__, 0)
   end
 
   defp cloak_field?({_field, type}) do
