@@ -23,6 +23,11 @@ defmodule Cloak.Ecto.Type do
       end
 
       @doc false
+      def equal?(term1, term2) do
+        term1 == term2
+      end
+
+      @doc false
       def dump(nil) do
         {:ok, nil}
       end
