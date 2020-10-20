@@ -4,7 +4,7 @@ defmodule Cloak.Ecto.MixProject do
   def project do
     [
       app: :cloak_ecto,
-      version: "1.1.0",
+      version: "1.1.1",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
