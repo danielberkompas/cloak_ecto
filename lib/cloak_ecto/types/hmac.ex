@@ -164,7 +164,7 @@ defmodule Cloak.Ecto.HMAC do
         {:ok, value}
       end
 
-      defoverridable init: 1, type: 0, cast: 1, dump: 1, load: 1
+      defoverridable init: 1, type: 0, cast: 1, dump: 1, load: 1, embed_as: 1, equal?: 2
 
       defp build_config do
         {:ok, config} =
