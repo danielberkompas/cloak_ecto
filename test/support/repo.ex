@@ -16,7 +16,7 @@ defmodule Cloak.Ecto.TestRepo do
          username: "postgres",
          password: "postgres",
          database: "cloak_ecto_test",
-         hostname: "localhost",
+         hostname: System.get_env("DATABASE_HOST") || "localhost",
          pool: Ecto.Adapters.SQL.Sandbox,
          priv: "test/support/"
        )}
