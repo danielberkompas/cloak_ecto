@@ -153,6 +153,16 @@ if Code.ensure_loaded?(:pbkdf2) do
         def dump(_value), do: :error
 
         @impl Ecto.Type
+        def embed_as(_format) do
+          :self
+        end
+
+        @impl Ecto.Type
+        def equal?(term1, term2) do
+          term1 == term2
+        end
+
+        @impl Ecto.Type
         def load(value), do: {:ok, value}
 
         defoverridable init: 1, type: 0, cast: 1, dump: 1, load: 1
