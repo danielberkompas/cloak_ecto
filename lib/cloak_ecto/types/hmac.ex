@@ -150,11 +150,21 @@ defmodule Cloak.Ecto.HMAC do
       end
 
       @impl Ecto.Type
+      def embed_as(_format) do
+        :self
+      end
+
+      @impl Ecto.Type
+      def equal?(term1, term2) do
+        term1 == term2
+      end
+
+      @impl Ecto.Type
       def load(value) do
         {:ok, value}
       end
 
-      defoverridable init: 1, type: 0, cast: 1, dump: 1, load: 1
+      defoverridable init: 1, type: 0, cast: 1, dump: 1, load: 1, embed_as: 1, equal?: 2
 
       defp build_config do
         {:ok, config} =
