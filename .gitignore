@@ -24,3 +24,6 @@ cloak_ecto-*.tar
 
 # Ignore ElixirLS
 .elixir_ls/
+
+# Ignore VSCode .devcontainer files
+.devcontainer/
