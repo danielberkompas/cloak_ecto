@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.1.0](https://github.com/danielberkompas/cloak_ecto/tree/v1.1.0) (2020-10-20)
+
+[Full Changelog](https://github.com/danielberkompas/cloak_ecto/compare/v1.0.2...v1.1.0)
+
+**Merged pull requests:**
+
+- Upgrade to ecto 3.5 [\#13](https://github.com/danielberkompas/cloak_ecto/pull/13) ([drewolson](https://github.com/drewolson))
+
 ## [v1.0.2](https://github.com/danielberkompas/cloak_ecto/tree/v1.0.2) (2020-01-29)
 
 [Full Changelog](https://github.com/danielberkompas/cloak_ecto/compare/v1.0.1...v1.0.2)

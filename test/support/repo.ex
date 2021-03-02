@@ -8,17 +8,21 @@ defmodule Cloak.Ecto.TestRepo do
   DATABASE_URL environment variable.
   """
   def init(_, opts) do
+    defaults =
+      Keyword.merge(opts,
+        pool: Ecto.Adapters.SQL.Sandbox,
+        priv: "test/support/"
+      )
+
     if url = System.get_env("DATABASE_URL") do
-      {:ok, Keyword.put(opts, :url, url)}
+      {:ok, Keyword.put(defaults, :url, url)}
     else
       {:ok,
-       Keyword.merge(opts,
+       Keyword.merge(defaults,
          username: "postgres",
          password: "postgres",
          database: "cloak_ecto_test",
-         hostname: "localhost",
-         pool: Ecto.Adapters.SQL.Sandbox,
-         priv: "test/support/"
+         hostname: System.get_env("DATABASE_HOST") || "localhost"
        )}
     end
   end
