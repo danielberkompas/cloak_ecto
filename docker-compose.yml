@@ -1,0 +1,15 @@
+version: "3.2"
+services:
+  db:
+    image: postgres
+  code:
+    build: .
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+        consistency: delegated
+    environment:
+      - "DATABASE_HOST=db"
+    depends_on:
+      - db
