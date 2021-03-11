@@ -37,6 +37,7 @@ defmodule Cloak.Ecto.MixProject do
     [
       {:cloak, "~> 1.0.0"},
       {:ecto, "~> 3.0"},
+      {:argon2_elixir, "~> 2.0", optional: true},
       {:pbkdf2, "~> 2.0", optional: true},
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:excoveralls, ">= 0.0.0", only: :test},
