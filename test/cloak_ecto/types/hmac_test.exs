@@ -46,7 +46,7 @@ defmodule Cloak.Ecto.HMACTest do
 
     test "hashes binaries" do
       assert {:ok, hash} = HMAC.dump("plaintext")
-      assert hash == :crypto.hmac(:sha512, "secret", "plaintext")
+      assert hash == :crypto.mac(:hmac, :sha512, "secret", "plaintext")
     end
 
     test "returns :error for all other types" do

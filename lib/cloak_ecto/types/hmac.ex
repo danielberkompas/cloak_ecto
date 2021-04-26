@@ -142,7 +142,7 @@ defmodule Cloak.Ecto.HMAC do
 
       def dump(value) when is_binary(value) do
         config = build_config()
-        {:ok, :crypto.hmac(config[:algorithm], config[:secret], value)}
+        {:ok, :crypto.mac(:hmac, config[:algorithm], config[:secret], value)}
       end
 
       def dump(_value) do
