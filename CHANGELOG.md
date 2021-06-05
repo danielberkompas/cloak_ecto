@@ -1,5 +1,17 @@
 # Changelog
 
+## [v1.2.0](https://github.com/danielberkompas/cloak_ecto/tree/v1.3.0) (2021-06-05)
+
+[Full Changelog](https://github.com/danielberkompas/cloak_ecto/compare/v1.1.1...v1.3.0)
+
+**Merged pull requests:**
+
+- Support Erlang 24 [\#24](https://github.com/danielberkompas/cloak_ecto/pull/24) ([danielberkompas](https://github.com/danielberkompas))
+
+## [v1.1.1](https://github.com/danielberkompas/cloak_ecto/tree/v1.1.1) (2020-10-20)
+
+[Full Changelog](https://github.com/danielberkompas/cloak_ecto/compare/v1.1.0...v1.1.1)
+
 ## [v1.1.0](https://github.com/danielberkompas/cloak_ecto/tree/v1.1.0) (2020-10-20)
 
 [Full Changelog](https://github.com/danielberkompas/cloak_ecto/compare/v1.0.2...v1.1.0)
