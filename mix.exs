@@ -37,9 +37,12 @@ defmodule Cloak.Ecto.MixProject do
     [
       {:cloak, "~> 1.1.1"},
       {:ecto, "~> 3.0"},
-      # Must use a forked version of pbkdf2 to support Erlang 24
+      # Must use a forked version of pbkdf2 to support Erlang 24. Because Hex only
+      # allows hex packages to be dependencies, this dep cannot be listed as an
+      # optional dependency anymore.
+      #
       # See https://github.com/basho/erlang-pbkdf2/pull/12
-      {:pbkdf2, "~> 2.0", optional: true, github: "miniclip/erlang-pbkdf2"},
+      {:pbkdf2, "~> 2.0", github: "miniclip/erlang-pbkdf2", only: [:dev, :test]},
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:excoveralls, ">= 0.0.0", only: :test},
       {:ecto_sql, ">= 0.0.0", only: [:dev, :test]},
