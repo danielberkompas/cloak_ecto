@@ -102,6 +102,8 @@ defmodule Cloak.Ecto.HMAC do
     otp_app = Keyword.fetch!(opts, :otp_app)
 
     quote do
+      alias Cloak.Ecto.Crypto
+
       @behaviour Cloak.Ecto.HMAC
       @behaviour Ecto.Type
       @algorithms ~w[
@@ -142,7 +144,7 @@ defmodule Cloak.Ecto.HMAC do
 
       def dump(value) when is_binary(value) do
         config = build_config()
-        {:ok, :crypto.hmac(config[:algorithm], config[:secret], value)}
+        {:ok, Crypto.hmac(config[:algorithm], config[:secret], value)}
       end
 
       def dump(_value) do

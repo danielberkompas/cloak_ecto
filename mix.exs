@@ -4,7 +4,7 @@ defmodule Cloak.Ecto.MixProject do
   def project do
     [
       app: :cloak_ecto,
-      version: "1.1.1",
+      version: "1.2.0",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
@@ -35,9 +35,11 @@ defmodule Cloak.Ecto.MixProject do
 
   defp deps do
     [
-      {:cloak, "~> 1.0.0"},
+      {:cloak, "~> 1.1.1"},
       {:ecto, "~> 3.0"},
-      {:pbkdf2, "~> 2.0", optional: true},
+      # Must use a forked version of pbkdf2 to support Erlang 24
+      # See https://github.com/basho/erlang-pbkdf2/pull/12
+      {:pbkdf2, "~> 2.0", optional: true, github: "miniclip/erlang-pbkdf2"},
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:excoveralls, ">= 0.0.0", only: :test},
       {:ecto_sql, ">= 0.0.0", only: [:dev, :test]},
