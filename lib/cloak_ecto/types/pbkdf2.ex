@@ -24,6 +24,12 @@ if Code.ensure_loaded?(:pbkdf2) do
 
         {:pbkdf2, "~> 2.0"}
 
+    If you are using Erlang >= 24, you will need to use a forked version,
+    because `pbkdf2` version `2.0.0` uses `:crypto.hmac` functions that were
+    removed in Erlang 24.
+
+        {:pbkdf2, "~> 2.0", github: "miniclip/erlang-pbkdf2"}
+
     ## Configuration
 
     Create a `PBKDF2` field in your project:
@@ -189,7 +195,9 @@ if Code.ensure_loaded?(:pbkdf2) do
             algo = inspect(config[:algorithm])
 
             raise Cloak.InvalidConfig,
-                  "#{algo} is an invalid hash algorithm for #{m}, must be in #{inspect(@algorithms)}"
+                  "#{algo} is an invalid hash algorithm for #{m}, must be in #{
+                    inspect(@algorithms)
+                  }"
           end
 
           unless is_integer(config[:iterations]) && config[:iterations] > 0 do
