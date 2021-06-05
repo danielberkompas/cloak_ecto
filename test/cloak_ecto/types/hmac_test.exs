@@ -1,6 +1,8 @@
 defmodule Cloak.Ecto.HMACTest do
   use ExUnit.Case
 
+  alias Cloak.Ecto.Crypto
+
   defmodule HMAC do
     use Cloak.Ecto.HMAC, otp_app: :cloak
 
@@ -46,7 +48,7 @@ defmodule Cloak.Ecto.HMACTest do
 
     test "hashes binaries" do
       assert {:ok, hash} = HMAC.dump("plaintext")
-      assert hash == :crypto.hmac(:sha512, "secret", "plaintext")
+      assert hash == Crypto.hmac(:sha512, "secret", "plaintext")
     end
 
     test "returns :error for all other types" do
