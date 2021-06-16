@@ -65,17 +65,11 @@ defmodule Cloak.Ecto.Migrator do
     end)
   end
 
-  defp cloak_field?({_field, {:embed, %Ecto.Embedded{}}}) do
-    false
-  end
-
-  defp cloak_field?({_field, {:parameterized, Ecto.Embedded, %Ecto.Embedded{}}}) do
-    false
-  end
-
-  defp cloak_field?({_field, type}) do
+  defp cloak_field?({_field, type}) when is_atom(type) do
     Code.ensure_loaded?(type) && function_exported?(type, :__cloak__, 0)
   end
+
+  defp cloak_field?(_), do: false
 
   defp validate(repo, schema) do
     unless ecto_repo?(repo) do
