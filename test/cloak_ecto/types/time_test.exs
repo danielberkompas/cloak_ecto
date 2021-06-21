@@ -5,6 +5,10 @@ defmodule Cloak.Ecto.TimeTest do
     use Cloak.Ecto.Time, vault: Cloak.Ecto.TestVault
   end
 
+  defmodule ClosureField do
+    use Cloak.Ecto.Time, vault: Cloak.Ecto.TestVault, closure: true
+  end
+
   setup_all do
     atom_map = %{hour: 12, minute: 0, second: 0}
     string_map = %{"hour" => 12, "minute" => 0, "second" => 0}
@@ -27,6 +31,13 @@ defmodule Cloak.Ecto.TimeTest do
     assert {:ok, ~T[12:00:00]} = Field.cast(state[:string_map])
   end
 
+  test ".cast unwraps closures", state do
+    assert {:ok, ~T[12:00:00]} = Field.cast(fn -> "12:00:00" end)
+    assert {:ok, ~T[12:00:00]} = Field.cast(fn -> ~T[12:00:00] end)
+    assert {:ok, ~T[12:00:00]} = Field.cast(fn -> state[:atom_map] end)
+    assert {:ok, ~T[12:00:00]} = Field.cast(fn -> state[:string_map] end)
+  end
+
   test ".dump encrypts the value" do
     {:ok, ciphertext} = Field.dump(~T[12:00:00])
     assert ciphertext != ~T[12:00:00]
@@ -36,5 +47,12 @@ defmodule Cloak.Ecto.TimeTest do
   test ".load decrypts an encrypted value" do
     {:ok, ciphertext} = Field.dump(~T[12:00:00])
     assert {:ok, ~T[12:00:00]} = Field.load(ciphertext)
+  end
+
+  test ".load with closure option wraps decrypted value" do
+    {:ok, ciphertext} = ClosureField.dump(~T[12:00:00])
+    assert {:ok, closure} = ClosureField.load(ciphertext)
+    assert is_function(closure, 0)
+    assert ~T[12:00:00] = closure.()
   end
 end

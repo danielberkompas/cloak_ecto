@@ -39,6 +39,10 @@ defmodule Cloak.Ecto.IntegerList do
 
       alias Cloak.Config
 
+      def cast(closure) when is_function(closure, 0) do
+        cast(closure.())
+      end
+
       def cast(value) do
         Ecto.Type.cast({:array, :integer}, value)
       end

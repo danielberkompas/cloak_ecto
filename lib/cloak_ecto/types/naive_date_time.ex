@@ -30,6 +30,10 @@ defmodule Cloak.Ecto.NaiveDateTime do
     quote location: :keep do
       use Cloak.Ecto.Type, unquote(opts)
 
+      def cast(closure) when is_function(closure, 0) do
+        cast(closure.())
+      end
+
       def cast(value), do: Ecto.Type.cast(:naive_datetime, value)
 
       def before_encrypt(value) do
