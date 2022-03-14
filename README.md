@@ -26,11 +26,14 @@ defmodule MyApp.EctoSchema do
 
   schema "table_name" do
     field :encrypted_field, MyApp.Encrypted.Binary
+    field :default_encrypted_field, MyApp.Encrypted.Binary, default: "foo", skip_default_validation: true
 
     # ...
   end
 end
 ```
+
+Note that when setting a default value for a field you need to include the `:skip_default_validation` option. Ecto (`3.6` and greater) will attempt to validate the default value at compile time. Since `cloak` relies on an ETS which is not started at compile time this validation will fail without the option.
 
 When Ecto writes the fields to the database, Cloak encrypts the values into a
 binary blob, using a configured encryption algorithm chosen by you.
