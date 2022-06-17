@@ -1,4 +1,4 @@
-FROM hexpm/elixir:1.12.1-erlang-24.0.2-ubuntu-focal-20210325
+FROM hexpm/elixir:1.13.4-erlang-25.0-ubuntu-focal-20211006
 
 # Install debian packages
 RUN apt-get update
