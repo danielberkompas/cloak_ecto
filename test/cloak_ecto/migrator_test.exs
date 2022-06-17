@@ -71,16 +71,19 @@ defmodule Cloak.Ecto.MigratorTest do
   end
 
   @post_title "Test Title"
+  @post_tags ["test", "encryption"]
 
   describe ".migrate/2 with binary ids" do
     setup do
       now = DateTime.utc_now()
-      encrypted_title = Cloak.Ecto.TestVault.encrypt!(@post_title, :secondary)
+      encrypted_title = Vault.encrypt!(@post_title, :secondary)
+      encrypted_tags = Enum.map(@post_tags, &Vault.encrypt!(&1, :secondary))
 
       posts =
         for _ <- 1..500 do
           %{
             title: encrypted_title,
+            tags: encrypted_tags,
             comments: [%{author: "Daniel", body: "Comment"}],
             inserted_at: now,
             updated_at: now
@@ -98,6 +101,8 @@ defmodule Cloak.Ecto.MigratorTest do
           Migrator.migrate(Repo, Cloak.Ecto.TestPost)
         end)
 
+      assert io =~ "__cloak_cursor_fields__", "Did not call __cloak_cursor_fields__ on schema!"
+
       titles =
         "posts"
         |> select([:title])
@@ -105,8 +110,21 @@ defmodule Cloak.Ecto.MigratorTest do
         |> Enum.map(&decrypt(&1.title, :default))
         |> Enum.uniq()
 
-      assert io =~ "__cloak_cursor_fields__", "Did not call __cloak_cursor_fields__ on schema!"
       assert titles == [{:ok, @post_title}], "Not all titles were migrated!"
+
+      tags =
+        "posts"
+        |> select([:tags])
+        |> Repo.all()
+        |> Enum.map(fn %{tags: tags} ->
+          tags
+          |> Enum.map(&decrypt(&1, :default))
+          |> Enum.map(&elem(&1, 1))
+        end)
+        |> Enum.uniq()
+        |> List.flatten()
+
+      assert tags == @post_tags, "Not all tags were migrated!"
     end
   end
 

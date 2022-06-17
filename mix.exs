@@ -105,7 +105,8 @@ defmodule Cloak.Ecto.MixProject do
 
   defp aliases do
     [
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      "ecto.reset": ["ecto.drop", "ecto.create", "ecto.migrate"]
     ]
   end
 end
