@@ -30,6 +30,10 @@ defmodule Cloak.Ecto.Time do
     quote location: :keep do
       use Cloak.Ecto.Type, unquote(opts)
 
+      def cast(closure) when is_function(closure, 0) do
+        cast(closure.())
+      end
+
       def cast(value), do: Ecto.Type.cast(:time, value)
 
       def before_encrypt(value) do
