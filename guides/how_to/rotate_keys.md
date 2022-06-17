@@ -15,14 +15,20 @@ For example, if your config currently looks like this:
         default: {Cloak.Ciphers.AES.GCM, tag: "AES.GCM.V1", key: <<...>>},
       ]
 
-Then change the `:default` label to the new key, and demote the existing
-key to the `:retired` label.
+Then you should change the `:default` label to the new key, and demote the
+existing key to the `:retired` label.
 
     config :my_app, MyApp.Vault,
       ciphers: [
         default: {Cloak.Ciphers.AES.GCM, tag: "AES.GCM.V2", key: <<...>>},
         retired: {Cloak.Ciphers.AES.GCM, tag: "AES.GCM.V1", key: <<...>>}
       ]
+
+> #### Labels don't matter, order does {: .tip}
+>
+> The `:ciphers` configuration is _order-dependent_. The first key in the list
+> will be used as the default, regardless of its label. This guide uses the 
+> `:default` and `:retired` labels for clarity, but the order is what matters.
 
 ## Migrate Data To New Key
 

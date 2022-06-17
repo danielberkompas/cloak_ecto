@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 config :cloak_ecto, Cloak.Ecto.TestVault,
   json_library: Jason,
