@@ -5,6 +5,10 @@ defmodule Cloak.Ecto.DateTimeTest do
     use Cloak.Ecto.DateTime, vault: Cloak.Ecto.TestVault
   end
 
+  defmodule ClosureField do
+    use Cloak.Ecto.DateTime, vault: Cloak.Ecto.TestVault, closure: true
+  end
+
   setup_all do
     atom_map = %{year: 2017, month: 1, day: 5, hour: 12, minute: 0, second: 0}
 
@@ -37,6 +41,13 @@ defmodule Cloak.Ecto.DateTimeTest do
     assert {:ok, ^dt} = Field.cast(state[:string_map])
   end
 
+  test ".cast unwraps closures", %{dt: dt} = state do
+    assert {:ok, ^dt} = Field.cast(fn -> "2017-01-05T12:00:00Z" end)
+    assert {:ok, ^dt} = Field.cast(fn -> dt end)
+    assert {:ok, ^dt} = Field.cast(fn -> state[:atom_map] end)
+    assert {:ok, ^dt} = Field.cast(fn -> state[:string_map] end)
+  end
+
   test ".dump encrypts the value", %{dt: dt} do
     {:ok, ciphertext} = Field.dump(dt)
     assert ciphertext != dt
@@ -46,5 +57,12 @@ defmodule Cloak.Ecto.DateTimeTest do
   test ".load decrypts an encrypted value", %{dt: dt} do
     {:ok, ciphertext} = Field.dump(dt)
     assert {:ok, ^dt} = Field.load(ciphertext)
+  end
+
+  test ".load with closure option wraps decrypted value", %{dt: dt} do
+    {:ok, ciphertext} = ClosureField.dump(dt)
+    assert {:ok, closure} = ClosureField.load(ciphertext)
+    assert is_function(closure, 0)
+    assert ^dt = closure.()
   end
 end
