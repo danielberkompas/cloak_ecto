@@ -109,7 +109,7 @@ Your schema module should look like this:
 
       schema "users" do
         field :email, MyApp.Encrypted.Binary
-        field :email_hash, Cloak.Ecto.SHA256
+        field :email_hash, MyApp.Hashed.HMAC
         # ... other fields
 
         timestamps()
@@ -129,8 +129,7 @@ Your schema module should look like this:
     end
 
 This example also shows how you would make a given field queryable by
-creating a mirrored `_hash` field. See `Cloak.Ecto.SHA256` or
-`Cloak.Ecto.HMAC` for more details.
+creating a mirrored `_hash` field. See `Cloak.Ecto.HMAC` for more details.
 
 ## Usage
 
