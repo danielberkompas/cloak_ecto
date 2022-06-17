@@ -74,6 +74,7 @@ defmodule Cloak.Ecto.MixProject do
         "guides/how_to/rotate_keys.md": [title: "Rotate Keys"],
         "guides/how_to/troubleshooting.md": [title: "Troubleshooting"],
         "guides/how_to/closure_wrapping.md": [title: "Closure Wrapping"],
+        "guides/how_to/troubleshooting.md": [title: "Troubleshooting"],
         "guides/upgrading/0.9.x_to_1.0.x.md": [title: "0.9.x to 1.0.x"]
       ],
       extra_section: "GUIDES",

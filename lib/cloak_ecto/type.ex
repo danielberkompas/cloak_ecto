@@ -68,6 +68,7 @@ defmodule Cloak.Ecto.Type do
       def load(value) do
         with {:ok, value} <- decrypt(value) do
           value = after_decrypt(value)
+
           if unquote(closure) do
             {:ok, fn -> value end}
           else

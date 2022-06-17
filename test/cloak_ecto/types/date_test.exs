@@ -27,7 +27,10 @@ defmodule Cloak.Ecto.DateTest do
   test ".cast unwraps closures" do
     assert {:ok, ~D[2017-01-05]} = Field.cast(fn -> "2017-01-05" end)
     assert {:ok, ~D[2017-01-05]} = Field.cast(fn -> %{year: "2017", month: "1", day: "5"} end)
-    assert {:ok, ~D[2017-01-05]} = Field.cast(fn -> %{"year" => "2017", "month" => "1", "day" => "5"} end)
+
+    assert {:ok, ~D[2017-01-05]} =
+             Field.cast(fn -> %{"year" => "2017", "month" => "1", "day" => "5"} end)
+
     assert {:ok, ~D[2017-01-05]} = Field.cast(fn -> ~D[2017-01-05] end)
   end
 
@@ -48,5 +51,4 @@ defmodule Cloak.Ecto.DateTest do
     assert is_function(closure, 0)
     assert ~D[2017-01-05] = closure.()
   end
-
 end
