@@ -55,9 +55,16 @@ defmodule Cloak.Ecto.Type do
 
       @doc false
       @impl Ecto.Type
+
       def equal?(term1, term2) do
-        term1 == term2
+        unwrap(term1) == unwrap(term2)
       end
+
+      defp unwrap(term) when is_function(term, 0) do
+        term.()
+      end
+
+      defp unwrap(term), do: term
 
       @doc false
       @impl Ecto.Type

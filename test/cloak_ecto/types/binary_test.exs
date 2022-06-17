@@ -67,4 +67,37 @@ defmodule Cloak.Ecto.BinaryTest do
       assert "value" = closure.()
     end
   end
+
+  describe ".equal?/1" do
+    test "unwraps closures to compare equality" do
+      schema = {
+        # values in the schema right now
+        %{value: fn -> "value" end},
+        # type definitons
+        %{value: ClosureField}
+      }
+
+      # Build a changeset where the value of the field hasn't actually changed
+      changeset =
+        Ecto.Changeset.cast(
+          schema,
+          %{value: "value"},
+          [:value]
+        )
+
+      # The changeset should not make any changes
+      assert changeset.changes == %{}
+
+      # Simulate a changeset where the value of the field has changed
+      changeset =
+        Ecto.Changeset.cast(
+          schema,
+          %{value: "something else"},
+          [:value]
+        )
+
+      # The changeset should now have a change for the field
+      assert changeset.changes == %{value: "something else"}
+    end
+  end
 end
