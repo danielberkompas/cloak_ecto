@@ -57,6 +57,10 @@ iex> Repo.get(MyApp.EctoSchema, 1)
 
 For complete usage instructions, see the [Hex documentation](https://hexdocs.pm/cloak_ecto).
 
+## Troubleshooting
+
+See our [troubleshooting guide](/guides/how_to/troubleshooting.md) for solutions to common issues.
+
 ## Notable Features
 
 - Transparent, easy to use encryption for database fields
