@@ -77,17 +77,16 @@ defmodule Cloak.Ecto.SHA256 do
 
   @doc false
   @impl Ecto.Type
-  def equal?(a, b), do: a == b
+  def equal?(value1, value2) do
+    hash_string(value1) == hash_string(value2)
+  end
+
+  defp hash_string(string) do
+    if String.valid?(string), do: hash(string), else: string
+  end
 
   @doc false
   def hash(value) do
     :crypto.hash(:sha256, value)
-  end
-
-  def equal?(value1, value2) do
-    value1 = if String.valid?(value1), do: hash(value1), else: value1
-    value2 = if String.valid?(value2), do: hash(value2), else: value2
-
-    value1 == value2
   end
 end
