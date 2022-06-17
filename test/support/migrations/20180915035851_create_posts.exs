@@ -8,6 +8,7 @@ defmodule Cloak.Ecto.TestRepo.Migrations.CreatePosts do
       add(:id, :uuid, primary_key: true, default: fragment("uuid_generate_v4()"))
       add(:title, :binary)
       add(:tags, {:array, :binary})
+      add(:metadata, {:map, :string})
       add(:comments, {:array, :map})
       timestamps(type: :utc_datetime)
     end

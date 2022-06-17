@@ -73,7 +73,7 @@ defmodule Cloak.Ecto.Migrator do
     false
   end
 
-  defp cloak_field?({field, {kind, inner_type}}) when kind in [:array] do
+  defp cloak_field?({field, {kind, inner_type}}) when kind in [:array, :map] do
     cloak_field?({field, inner_type})
   end
 
