@@ -42,27 +42,42 @@ defmodule Cloak.Ecto.SHA256 do
       user = Repo.get_by(User, email_hash: "user@email.com")
   """
 
+  @behaviour Ecto.Type
+
   @doc false
+  @impl Ecto.Type
   def type, do: :binary
 
   @doc false
+  @impl Ecto.Type
   def cast(nil) do
     {:ok, nil}
   end
 
+  @impl Ecto.Type
   def cast(value) do
     {:ok, to_string(value)}
   end
 
   @doc false
+  @impl Ecto.Type
   def dump(value) do
     {:ok, hash(value)}
   end
 
   @doc false
+  @impl Ecto.Type
   def load(value) do
     {:ok, value}
   end
+
+  @doc false
+  @impl Ecto.Type
+  def embed_as(_), do: :self
+
+  @doc false
+  @impl Ecto.Type
+  def equal?(a, b), do: a == b
 
   @doc false
   def hash(value) do
