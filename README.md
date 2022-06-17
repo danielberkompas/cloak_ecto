@@ -1,6 +1,6 @@
 # Cloak.Ecto
 [![Coverage Status](https://coveralls.io/repos/github/danielberkompas/cloak_ecto/badge.svg?branch=master)](https://coveralls.io/github/danielberkompas/cloak_ecto?branch=master)
-[![Build Status](https://travis-ci.org/danielberkompas/cloak_ecto.svg?branch=master)](https://travis-ci.org/danielberkompas/cloak_ecto)
+[![Build Status](https://danielberkompas.semaphoreci.com/badges/cloak_ecto/branches/master.svg?style=shields)](https://danielberkompas.semaphoreci.com/projects/cloak_ecto)
 
 Easily encrypt fields in your [Ecto](https://github.com/elixir-ecto/ecto)
 schemas. Relies on [Cloak](https://github.com/danielberkompas/cloak) for
@@ -57,6 +57,10 @@ iex> Repo.get(MyApp.EctoSchema, 1)
 
 For complete usage instructions, see the [Hex documentation](https://hexdocs.pm/cloak_ecto).
 
+## Troubleshooting
+
+See our [troubleshooting guide](/guides/how_to/troubleshooting.md) for solutions to common issues.
+
 ## Notable Features
 
 - Transparent, easy to use encryption for database fields
@@ -89,3 +93,19 @@ For complete usage instructions, see the [Hex documentation](https://hexdocs.pm/
 
 If you want to use `Cloak` without Ecto, see
 [`cloak`](https://hex.pm/packages/cloak) instead.
+
+## Local Development
+
+To develop this library locally, you will need to install the correct version
+of Elixir and Postgres. The easiest way to set everything up is with Docker
+and [docker-compose](https://docs.docker.com/compose/):
+
+```sh
+$ cd cloak_ecto
+# Runs the bin/test script in the context of Docker
+$ docker-compose run code bin/test
+# To access a terminal with mix, use this command:
+$ docker-compose run code bash
+# Run any command of your choosing:
+root@234098234oij:/app# mix docs
+```

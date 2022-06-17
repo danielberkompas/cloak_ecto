@@ -7,6 +7,8 @@ defmodule Cloak.Ecto.TestPost do
 
   schema "posts" do
     field(:title, Cloak.Ecto.Encrypted.Binary)
+    field(:tags, {:array, Cloak.Ecto.Encrypted.Binary})
+    field(:metadata, {:map, :string})
     embeds_many(:comments, Cloak.Ecto.TestComment)
     timestamps(type: :utc_datetime)
   end

@@ -4,7 +4,7 @@ defmodule Cloak.Ecto.MixProject do
   def project do
     [
       app: :cloak_ecto,
-      version: "1.0.2",
+      version: "1.2.0",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
@@ -35,9 +35,14 @@ defmodule Cloak.Ecto.MixProject do
 
   defp deps do
     [
-      {:cloak, "~> 1.0.0"},
+      {:cloak, "~> 1.1.1"},
       {:ecto, "~> 3.0"},
-      {:pbkdf2, "~> 2.0", optional: true},
+      # Must use a forked version of pbkdf2 to support Erlang 24. Because Hex only
+      # allows hex packages to be dependencies, this dep cannot be listed as an
+      # optional dependency anymore.
+      #
+      # See https://github.com/basho/erlang-pbkdf2/pull/12
+      {:pbkdf2, "~> 2.0", github: "miniclip/erlang-pbkdf2", only: [:dev, :test]},
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:excoveralls, ">= 0.0.0", only: :test},
       {:ecto_sql, ">= 0.0.0", only: [:dev, :test]},
@@ -68,6 +73,7 @@ defmodule Cloak.Ecto.MixProject do
         "guides/how_to/encrypt_existing_data.md": [title: "Encrypt Existing Data"],
         "guides/how_to/rotate_keys.md": [title: "Rotate Keys"],
         "guides/how_to/closure_wrapping.md": [title: "Closure Wrapping"],
+        "guides/how_to/troubleshooting.md": [title: "Troubleshooting"],
         "guides/upgrading/0.9.x_to_1.0.x.md": [title: "0.9.x to 1.0.x"]
       ],
       extra_section: "GUIDES",
@@ -100,7 +106,8 @@ defmodule Cloak.Ecto.MixProject do
 
   defp aliases do
     [
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      "ecto.reset": ["ecto.drop", "ecto.create", "ecto.migrate"]
     ]
   end
 end

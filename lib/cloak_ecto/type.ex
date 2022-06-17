@@ -9,12 +9,15 @@ defmodule Cloak.Ecto.Type do
     closure = !!opts[:closure]
 
     quote location: :keep do
+      @behaviour Ecto.Type
       @behaviour Cloak.Ecto.Type
 
       @doc false
+      @impl Ecto.Type
       def type, do: :binary
 
       @doc false
+      @impl Ecto.Type
       def cast(nil) do
         {:ok, nil}
       end
@@ -28,6 +31,7 @@ defmodule Cloak.Ecto.Type do
       end
 
       @doc false
+      @impl Ecto.Type
       def dump(nil) do
         {:ok, nil}
       end
@@ -44,6 +48,19 @@ defmodule Cloak.Ecto.Type do
       end
 
       @doc false
+      @impl Ecto.Type
+      def embed_as(_format) do
+        :self
+      end
+
+      @doc false
+      @impl Ecto.Type
+      def equal?(term1, term2) do
+        term1 == term2
+      end
+
+      @doc false
+      @impl Ecto.Type
       def load(nil) do
         {:ok, nil}
       end
@@ -51,6 +68,7 @@ defmodule Cloak.Ecto.Type do
       def load(value) do
         with {:ok, value} <- decrypt(value) do
           value = after_decrypt(value)
+
           if unquote(closure) do
             {:ok, fn -> value end}
           else
@@ -68,7 +86,14 @@ defmodule Cloak.Ecto.Type do
       @doc false
       def after_decrypt(value), do: value
 
-      defoverridable type: 0, cast: 1, dump: 1, load: 1, before_encrypt: 1, after_decrypt: 1
+      defoverridable after_decrypt: 1,
+                     before_encrypt: 1,
+                     cast: 1,
+                     dump: 1,
+                     embed_as: 1,
+                     equal?: 2,
+                     load: 1,
+                     type: 0
 
       @doc false
       def __cloak__ do
