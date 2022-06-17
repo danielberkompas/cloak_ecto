@@ -99,9 +99,9 @@ and [docker-compose](https://docs.docker.com/compose/):
 ```sh
 $ cd cloak_ecto
 # Runs the bin/test script in the context of Docker
-$ docker-compose run app bin/test
+$ docker-compose run code bin/test
 # To access a terminal with mix, use this command:
-$ docker-compose run app bash
+$ docker-compose run code bash
 # Run any command of your choosing:
 root@234098234oij:/app# mix docs
 ```
