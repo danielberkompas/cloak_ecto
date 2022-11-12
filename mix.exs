@@ -42,7 +42,7 @@ defmodule Cloak.Ecto.MixProject do
       # optional dependency anymore.
       #
       # See https://github.com/basho/erlang-pbkdf2/pull/12
-      {:pbkdf2, "~> 2.0", github: "miniclip/erlang-pbkdf2", only: [:dev, :test]},
+      # {:pbkdf2, "~> 2.0", github: "miniclip/erlang-pbkdf2", only: [:dev, :test]},
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:excoveralls, ">= 0.0.0", only: :test},
       {:ecto_sql, ">= 0.0.0", only: [:dev, :test]},
