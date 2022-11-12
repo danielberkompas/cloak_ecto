@@ -1,131 +1,114 @@
-if Code.ensure_loaded?(:pbkdf2) do
-  defmodule Cloak.Ecto.PBKDF2 do
-    @moduledoc """
-    A custom `Ecto.Type` for deriving a key for fields using
-    [PBKDF2](https://en.wikipedia.org/wiki/PBKDF2).
+defmodule Cloak.Ecto.PBKDF2 do
+  @moduledoc """
+  A custom `Ecto.Type` for deriving a key for fields using
+  [PBKDF2](https://en.wikipedia.org/wiki/PBKDF2).
 
-    PBKDF2 is **more secure** than `Cloak.Ecto.HMAC` and
-    `Cloak.Fields.SHA256` because it uses [key
-    stretching](https://en.wikipedia.org/wiki/Key_stretching) to increase the
-    amount of time to compute hashes. This slows down brute-force attacks.
+  PBKDF2 is **more secure** than `Cloak.Ecto.HMAC` and
+  `Cloak.Fields.SHA256` because it uses [key
+  stretching](https://en.wikipedia.org/wiki/Key_stretching) to increase the
+  amount of time to compute hashes. This slows down brute-force attacks.
 
-    ## Why
+  ## Why
 
-    If you store a hash of a field's value, you can then query on it as a
-    proxy for an encrypted field. This works because PBKDF2 is deterministic
-    and always results in the same value, while secure encryption does not.
-    Be warned, however, that hashing will expose which fields have the same
-    value, because they will contain the same hash.
+  If you store a hash of a field's value, you can then query on it as a
+  proxy for an encrypted field. This works because PBKDF2 is deterministic
+  and always results in the same value, while secure encryption does not.
+  Be warned, however, that hashing will expose which fields have the same
+  value, because they will contain the same hash.
 
-    ## Dependency
+  ## Configuration
 
-    To use this field type, you must install the `:pbkdf2` library in your
-    `mix.exs` file.
+  Create a `PBKDF2` field in your project:
 
-        {:pbkdf2, "~> 2.0"}
+      defmodule MyApp.Hashed.PBKDF2 do
+        use Cloak.Ecto.PBKDF2, otp_app: :my_app
+      end
 
-    If you are using Erlang >= 24, you will need to use a forked version,
-    because `pbkdf2` version `2.0.0` uses `:crypto.hmac` functions that were
-    removed in Erlang 24.
+  Then, configure it with a `:secret`, an `:algorithm`, the maximum `:size`
+  of the stored key (in bytes), and a number of `:iterations`, either using
+  mix configuration:
 
-        {:pbkdf2, "~> 2.0", github: "miniclip/erlang-pbkdf2"}
+      config :my_app, MyApp.Hashed.PBKDF2,
+        algorithm: :sha256,
+        iterations: 10_000,
+        secret: "secret",
+        size: 64
 
-    ## Configuration
+  Or using the `init/1` callback to fetch configuration at runtime:
 
-    Create a `PBKDF2` field in your project:
-
-        defmodule MyApp.Hashed.PBKDF2 do
-          use Cloak.Ecto.PBKDF2, otp_app: :my_app
-        end
-
-    Then, configure it with a `:secret`, an `:algorithm`, the maximum `:size`
-    of the stored key (in bytes), and a number of `:iterations`, either using
-    mix configuration:
-
-        config :my_app, MyApp.Hashed.PBKDF2,
-          algorithm: :sha256,
-          iterations: 10_000,
-          secret: "secret",
-          size: 64
-
-    Or using the `init/1` callback to fetch configuration at runtime:
-
-        defmodule MyApp.Hashed.PBKDF2 do
-          use Cloak.Ecto.PBKDF2, otp_app: :my_app
-
-          @impl Cloak.Ecto.PBKDF2
-          def init(config) do
-            config = Keyword.merge(config, [
-              algorithm: :sha256,
-              iterations: 10_000,
-              secret: System.get_env("PBKDF2_SECRET")
-            ])
-
-            {:ok, config}
-          end
-        end
-
-    ## Usage
-
-    Create the hash field with the type `:binary`. Add it to your schema
-    definition like this:
-
-        schema "table" do
-          field :field_name, MyApp.Encrypted.Binary
-          field :field_name_hash, MyApp.Hashed.PBKDF2
-        end
-
-    Ensure that the hash is updated whenever the target field changes with the
-    `put_change/3` function:
-
-        def changeset(struct, attrs \\\\ %{}) do
-          struct
-          |> cast(attrs, [:field_name, :field_name_hash])
-          |> put_hashed_fields()
-        end
-
-        defp put_hashed_fields(changeset) do
-          changeset
-          |> put_change(:field_name_hash, get_field(changeset, :field_name))
-        end
-
-    Query the Repo using the `:field_name_hash` in any place you would typically
-    query by `:field_name`.
-
-        user = Repo.get_by(User, email_hash: "user@email.com")
-    """
-
-    @typedoc "Digest algorithms supported by Cloak.Field.PBKDF2"
-    @type algorithms :: :md4 | :md5 | :ripemd160 | :sha | :sha224 | :sha256 | :sha384 | :sha512
-
-    @doc """
-    Configures the `PBKDF2` field using runtime information.
-
-    ## Example
+      defmodule MyApp.Hashed.PBKDF2 do
+        use Cloak.Ecto.PBKDF2, otp_app: :my_app
 
         @impl Cloak.Ecto.PBKDF2
         def init(config) do
           config = Keyword.merge(config, [
             algorithm: :sha256,
+            iterations: 10_000,
             secret: System.get_env("PBKDF2_SECRET")
           ])
 
           {:ok, config}
         end
-    """
-    @callback init(config :: Keyword.t()) :: {:ok, Keyword.t()} | {:error, any}
+      end
 
-    @doc false
-    defmacro __using__(opts) do
-      otp_app = Keyword.fetch!(opts, :otp_app)
+  ## Usage
 
-      quote do
-        @behaviour Cloak.Ecto.PBKDF2
-        @behaviour Ecto.Type
-        @algorithms ~w[
-          md4
-          md5
-          ripemd160
+  Create the hash field with the type `:binary`. Add it to your schema
+  definition like this:
+
+      schema "table" do
+        field :field_name, MyApp.Encrypted.Binary
+        field :field_name_hash, MyApp.Hashed.PBKDF2
+      end
+
+  Ensure that the hash is updated whenever the target field changes with the
+  `put_change/3` function:
+
+      def changeset(struct, attrs \\\\ %{}) do
+        struct
+        |> cast(attrs, [:field_name, :field_name_hash])
+        |> put_hashed_fields()
+      end
+
+      defp put_hashed_fields(changeset) do
+        changeset
+        |> put_change(:field_name_hash, get_field(changeset, :field_name))
+      end
+
+  Query the Repo using the `:field_name_hash` in any place you would typically
+  query by `:field_name`.
+
+      user = Repo.get_by(User, email_hash: "user@email.com")
+  """
+
+  @typedoc "Digest algorithms supported by Cloak.Field.PBKDF2"
+  @type algorithms :: :md4 | :md5 | :ripemd160 | :sha | :sha224 | :sha256 | :sha384 | :sha512
+
+  @doc """
+  Configures the `PBKDF2` field using runtime information.
+
+  ## Example
+
+      @impl Cloak.Ecto.PBKDF2
+      def init(config) do
+        config = Keyword.merge(config, [
+          algorithm: :sha256,
+          secret: System.get_env("PBKDF2_SECRET")
+        ])
+
+        {:ok, config}
+      end
+  """
+  @callback init(config :: Keyword.t()) :: {:ok, Keyword.t()} | {:error, any}
+
+  @doc false
+  defmacro __using__(opts) do
+    otp_app = Keyword.fetch!(opts, :otp_app)
+
+    quote do
+      @behaviour Cloak.Ecto.PBKDF2
+      @behaviour Ecto.Type
+      @algorithms ~w[
           sha
           sha224
           sha256
@@ -133,87 +116,96 @@ if Code.ensure_loaded?(:pbkdf2) do
           sha512
         ]a
 
-        @impl Cloak.Ecto.PBKDF2
-        def init(config) do
-          defaults = [algorithm: :sha256, iterations: 10_000, size: 32]
+      @impl Cloak.Ecto.PBKDF2
+      def init(config) do
+        defaults = [algorithm: :sha256, iterations: 10_000, size: 32]
 
-          {:ok, defaults |> Keyword.merge(config)}
+        {:ok, defaults |> Keyword.merge(config)}
+      end
+
+      @impl Ecto.Type
+      def type, do: :binary
+
+      @impl Ecto.Type
+      def cast(nil), do: {:ok, nil}
+      def cast(value) when is_binary(value), do: {:ok, value}
+      def cast(_value), do: :error
+
+      @impl Ecto.Type
+      def dump(nil), do: {:ok, nil}
+
+      def dump(value) when is_binary(value) do
+        config = build_config()
+
+        hash =
+          :crypto.pbkdf2_hmac(
+            config[:algorithm],
+            value,
+            config[:secret],
+            config[:iterations],
+            config[:size]
+          )
+
+        {:ok, hash}
+      end
+
+      def dump(_value), do: :error
+
+      @impl Ecto.Type
+      def embed_as(_format) do
+        :self
+      end
+
+      @impl Ecto.Type
+      def equal?(term1, term2) do
+        term1 == term2
+      end
+
+      @impl Ecto.Type
+      def load(value), do: {:ok, value}
+
+      defoverridable init: 1, type: 0, cast: 1, dump: 1, load: 1
+
+      defp build_config do
+        {:ok, config} =
+          unquote(otp_app)
+          |> Application.get_env(__MODULE__, [])
+          |> init()
+
+        validate_config(config)
+      end
+
+      defp validate_config(config) do
+        m = inspect(__MODULE__)
+
+        unless is_binary(config[:secret]) do
+          secret = inspect(config[:secret])
+
+          raise Cloak.InvalidConfig, "#{secret} is an invalid secret for #{m}"
         end
 
-        @impl Ecto.Type
-        def type, do: :binary
+        unless config[:algorithm] in @algorithms do
+          algo = inspect(config[:algorithm])
 
-        @impl Ecto.Type
-        def cast(nil), do: {:ok, nil}
-        def cast(value) when is_binary(value), do: {:ok, value}
-        def cast(_value), do: :error
-
-        @impl Ecto.Type
-        def dump(nil), do: {:ok, nil}
-
-        def dump(value) when is_binary(value) do
-          config = build_config()
-          :pbkdf2.pbkdf2({:hmac, config[:algorithm]}, value, config[:secret], config[:size])
+          raise Cloak.InvalidConfig,
+                "#{algo} is an invalid hash algorithm for #{m}, must be in #{inspect(@algorithms)}"
         end
 
-        def dump(_value), do: :error
+        unless is_integer(config[:iterations]) && config[:iterations] > 0 do
+          iterations = inspect(config[:iterations])
 
-        @impl Ecto.Type
-        def embed_as(_format) do
-          :self
+          raise Cloak.InvalidConfig,
+                "Iterations must be a positive integer for #{m}, got: #{iterations}"
         end
 
-        @impl Ecto.Type
-        def equal?(term1, term2) do
-          term1 == term2
+        unless is_integer(config[:size]) && config[:size] > 0 do
+          size = inspect(config[:size])
+
+          raise Cloak.InvalidConfig,
+                "Size should be a positive integer for #{m}, got: #{size}"
         end
 
-        @impl Ecto.Type
-        def load(value), do: {:ok, value}
-
-        defoverridable init: 1, type: 0, cast: 1, dump: 1, load: 1
-
-        defp build_config do
-          {:ok, config} =
-            unquote(otp_app)
-            |> Application.get_env(__MODULE__, [])
-            |> init()
-
-          validate_config(config)
-        end
-
-        defp validate_config(config) do
-          m = inspect(__MODULE__)
-
-          unless is_binary(config[:secret]) do
-            secret = inspect(config[:secret])
-
-            raise Cloak.InvalidConfig, "#{secret} is an invalid secret for #{m}"
-          end
-
-          unless config[:algorithm] in @algorithms do
-            algo = inspect(config[:algorithm])
-
-            raise Cloak.InvalidConfig,
-                  "#{algo} is an invalid hash algorithm for #{m}, must be in #{inspect(@algorithms)}"
-          end
-
-          unless is_integer(config[:iterations]) && config[:iterations] > 0 do
-            iterations = inspect(config[:iterations])
-
-            raise Cloak.InvalidConfig,
-                  "Iterations must be a positive integer for #{m}, got: #{iterations}"
-          end
-
-          unless is_integer(config[:size]) && config[:size] > 0 do
-            size = inspect(config[:size])
-
-            raise Cloak.InvalidConfig,
-                  "Size should be a positive integer for #{m}, got: #{size}"
-          end
-
-          config
-        end
+        config
       end
     end
   end
