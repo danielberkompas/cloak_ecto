@@ -2,6 +2,8 @@ version: "3.2"
 services:
   db:
     image: postgres
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
   code:
     build: .
     volumes:
