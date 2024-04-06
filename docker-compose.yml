@@ -1,7 +1,7 @@
 version: "3.2"
 services:
   db:
-    image: postgres
+    image: postgres:alpine
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
   code:
