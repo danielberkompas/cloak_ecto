@@ -1,10 +1,13 @@
 defmodule Cloak.Ecto.MixProject do
   use Mix.Project
 
+  @version "1.3.0"
+  @source_url "https://github.com/danielberkompas/cloak_ecto"
+
   def project do
     [
       app: :cloak_ecto,
-      version: "1.2.0",
+      version: @version,
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
@@ -14,7 +17,7 @@ defmodule Cloak.Ecto.MixProject do
         "coveralls.post": :test,
         "coveralls.html": :test
       ],
-      source_url: "https://github.com/danielberkompas/cloak_ecto",
+      source_url: @source_url,
       description: "Encrypted fields for Ecto",
       package: package(),
       deps: deps(),
