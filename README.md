@@ -1,6 +1,10 @@
 # Cloak.Ecto
-[![Coverage Status](https://coveralls.io/repos/github/danielberkompas/cloak_ecto/badge.svg?branch=master)](https://coveralls.io/github/danielberkompas/cloak_ecto?branch=master)
+[![Hex Version](http://img.shields.io/hexpm/v/cloak_ecto.svg)](https://hex.pm/packages/cloak_ecto)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/cloak_ecto/)
+[![Total Download](https://img.shields.io/hexpm/dt/cloak_ecto.svg)](https://hex.pm/packages/cloak_ecto)
+[![Last Updated](https://img.shields.io/github/last-commit/danielberkompas/cloak_ecto.svg)](https://github.com/danielberkompas/cloak_ecto/commits/master)
 [![Build Status](https://danielberkompas.semaphoreci.com/badges/cloak_ecto/branches/master.svg?style=shields)](https://danielberkompas.semaphoreci.com/projects/cloak_ecto)
+[![Coverage Status](https://coveralls.io/repos/github/danielberkompas/cloak_ecto/badge.svg)](https://coveralls.io/github/danielberkompas/cloak_ecto)
 
 Easily encrypt fields in your [Ecto](https://github.com/elixir-ecto/ecto)
 schemas. Relies on [Cloak](https://github.com/danielberkompas/cloak) for
