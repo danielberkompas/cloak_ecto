@@ -44,7 +44,7 @@ if Code.ensure_loaded?(:pbkdf2) do
 
         config :my_app, MyApp.Hashed.PBKDF2,
           algorithm: :sha256,
-          iterations: 10_000,
+          iterations: 600_000,
           secret: "secret",
           size: 64
 
@@ -57,7 +57,7 @@ if Code.ensure_loaded?(:pbkdf2) do
           def init(config) do
             config = Keyword.merge(config, [
               algorithm: :sha256,
-              iterations: 10_000,
+              iterations: 600_000,
               secret: System.get_env("PBKDF2_SECRET")
             ])
 
@@ -135,7 +135,7 @@ if Code.ensure_loaded?(:pbkdf2) do
 
         @impl Cloak.Ecto.PBKDF2
         def init(config) do
-          defaults = [algorithm: :sha256, iterations: 10_000, size: 32]
+          defaults = [algorithm: :sha256, iterations: 600_000, size: 32]
 
           {:ok, defaults |> Keyword.merge(config)}
         end
