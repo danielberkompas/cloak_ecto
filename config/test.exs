@@ -11,6 +11,6 @@ config :cloak_ecto, Cloak.Ecto.TestVault,
        tag: "AES.CTR.V1", key: Base.decode64!("o5IzV8xlunc0m0/8HNHzh+3MCBBvYZa0mv4CsZic5qI=")}
   ]
 
-config :logger, level: :warn
+config :logger, level: :warning
 
 config :cloak_ecto, ecto_repos: [Cloak.Ecto.TestRepo]
