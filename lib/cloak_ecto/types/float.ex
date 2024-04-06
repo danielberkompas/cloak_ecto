@@ -1,6 +1,7 @@
 defmodule Cloak.Ecto.Float do
   @moduledoc """
-  An `Ecto.Type` to encrypt a float field.
+  An `Ecto.Type` to encrypt a float field. Consider using `Cloak.Ecto.Decimal`
+  instead if precision is important.
 
   ## Migration
 
