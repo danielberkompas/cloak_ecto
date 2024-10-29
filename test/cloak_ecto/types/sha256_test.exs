@@ -32,6 +32,7 @@ defmodule Cloak.Ecto.SHA256Test do
 
   describe ".equal?/2" do
     test "return true on same values and hashed values" do
+      assert Field.equal?(nil, nil)
       assert Field.equal?("value", "value")
       assert Field.equal?(:crypto.hash(:sha256, "value"), :crypto.hash(:sha256, "value"))
       assert Field.equal?("value", :crypto.hash(:sha256, "value"))
@@ -41,6 +42,8 @@ defmodule Cloak.Ecto.SHA256Test do
     test "return false on different values" do
       refute Field.equal?("value", "not equal")
       refute Field.equal?(:crypto.hash(:sha256, "value"), :crypto.hash(:sha256, "not equal"))
+      refute Field.equal?(nil, "not equal")
+      refute Field.equal?("not equal", nil)
     end
   end
 end
