@@ -30,6 +30,20 @@ defmodule Cloak.Ecto.Binary do
     quote location: :keep do
       use Cloak.Ecto.Type, unquote(opts)
 
+      if unquote(opts[:embed]) do
+        def embed_as(_format) do
+          :dump
+        end
+
+        def before_decrypt(value) do
+          Base.decode64(value, padding: false)
+        end
+
+        def after_encrypt(value) do
+          {:ok, Base.encode64(value, padding: false)}
+        end
+      end
+
       def cast(closure) when is_function(closure, 0) do
         cast(closure.())
       end

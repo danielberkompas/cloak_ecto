@@ -39,7 +39,8 @@ defmodule Cloak.Ecto.Type do
       def dump(value) do
         with {:ok, value} <- cast(value),
              value <- before_encrypt(value),
-             {:ok, value} <- encrypt(value) do
+             {:ok, value} <- encrypt(value),
+             {:ok, value} <- after_encrypt(value) do
           {:ok, value}
         else
           _other ->
@@ -73,7 +74,8 @@ defmodule Cloak.Ecto.Type do
       end
 
       def load(value) do
-        with {:ok, value} <- decrypt(value) do
+        with {:ok, value} <- before_decrypt(value),
+             {:ok, value} <- decrypt(value) do
           value = after_decrypt(value)
 
           if unquote(closure) do
@@ -90,11 +92,18 @@ defmodule Cloak.Ecto.Type do
       @doc false
       def before_encrypt(value), do: to_string(value)
 
+      def after_encrypt(value), do: {:ok, value}
+
+      @doc false
+      def before_decrypt(value), do: {:ok, value}
+
       @doc false
       def after_decrypt(value), do: value
 
-      defoverridable after_decrypt: 1,
+      defoverridable before_decrypt: 1,
+                     after_decrypt: 1,
                      before_encrypt: 1,
+                     after_encrypt: 1,
                      cast: 1,
                      dump: 1,
                      embed_as: 1,
