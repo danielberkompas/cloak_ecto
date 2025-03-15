@@ -5,6 +5,10 @@ defmodule Cloak.Ecto.BinaryTest do
     use Cloak.Ecto.Binary, vault: Cloak.Ecto.TestVault
   end
 
+  defmodule EmbeddedField do
+    use Cloak.Ecto.Binary, vault: Cloak.Ecto.TestVault, embed: true
+  end
+
   defmodule ClosureField do
     use Cloak.Ecto.Binary, vault: Cloak.Ecto.TestVault, closure: true
   end
@@ -47,6 +51,11 @@ defmodule Cloak.Ecto.BinaryTest do
       assert ciphertext != "value"
     end
 
+    test "encrypts and base64 encodes embedded binaries" do
+      {:ok, ciphertext} = EmbeddedField.dump("value")
+      assert Base.decode64!(ciphertext, padding: false) != "value"
+    end
+
     test "returns :error on other types" do
       for invalid <- @invalid_types do
         assert :error == Field.dump(invalid)
@@ -58,6 +67,13 @@ defmodule Cloak.Ecto.BinaryTest do
     test "decrypts the ciphertext" do
       {:ok, ciphertext} = Field.dump("value")
       assert {:ok, "value"} = Field.load(ciphertext)
+    end
+
+    test "decrypts an embedded ciphertext" do
+      {:ok, ciphertext} = EmbeddedField.dump("value")
+      assert {:ok, "value"} = EmbeddedField.load(ciphertext)
+
+      assert {:ok, "value"} = ciphertext |> Base.decode64!(padding: false) |> Field.load()
     end
 
     test "closure option wraps decrypted value" do
