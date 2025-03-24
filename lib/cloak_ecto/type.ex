@@ -4,7 +4,7 @@ defmodule Cloak.Ecto.Type do
   @callback __cloak__ :: Keyword.t()
 
   defmacro __using__(opts) do
-    vault = Keyword.fetch!(opts, :vault)
+    vault = Cloak.Ecto.Type.__get_vault__(opts)
     label = opts[:label]
     closure = !!opts[:closure]
 
@@ -119,5 +119,13 @@ defmodule Cloak.Ecto.Type do
         unquote(vault).decrypt(ciphertext)
       end
     end
+  end
+
+  @default_vault Application.compile_env(:cloak, :default_vault)
+
+  @doc false
+  def __get_vault__(opts) do
+    Keyword.get(opts, :vault) || @default_vault ||
+      raise ArgumentError, "No `:vault` option was provided, and no default vault was configured"
   end
 end
