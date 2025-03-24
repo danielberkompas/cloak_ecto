@@ -77,7 +77,7 @@ defmodule Cloak.Ecto.Migrator.CursorStream do
 
   defp fields_for_cursor(schema, primary_key) do
     if function_exported?(schema, :__cloak_cursor_fields__, 0) do
-      schema.__cloak_cursor_fields__
+      schema.__cloak_cursor_fields__()
     else
       [primary_key]
     end
