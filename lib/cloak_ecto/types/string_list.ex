@@ -36,7 +36,8 @@ defmodule Cloak.Ecto.StringList do
 
   @doc false
   defmacro __using__(opts) do
-    opts = Keyword.merge(opts, vault: Keyword.fetch!(opts, :vault))
+    vault = Cloak.Ecto.Type.__get_vault__(opts)
+    opts = Keyword.merge(opts, vault: vault)
 
     quote location: :keep do
       use Cloak.Ecto.Type, unquote(opts)
