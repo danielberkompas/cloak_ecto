@@ -77,6 +77,10 @@ defmodule Cloak.Ecto.Migrator do
     false
   end
 
+  defp cloak_field?({_field, {:parameterized, {Ecto.Embedded, %Ecto.Embedded{}}}}) do
+    false
+  end
+
   defp cloak_field?({_field, {:parameterized, {Ecto.Enum, _opts}}}) do
     false
   end
