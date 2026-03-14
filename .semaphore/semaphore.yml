@@ -41,9 +41,9 @@ blocks:
             - sem-version elixir $ELIXIR_VERSION
             - sem-service start postgres
             - checkout
-            - cache restore
+            # - cache restore
             - mix local.hex --force
             - mix local.rebar --force
             - mix deps.get
             - bin/test
-            - cache store
+            # - cache store
