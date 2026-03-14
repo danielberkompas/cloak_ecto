@@ -34,6 +34,7 @@ blocks:
                 - "1.13.4:24.0"
                 - "1.16.0:25.0"
                 - "1.16.0:26.0"
+                - "1.19.5:28.4"
           commands:
             - export ELIXIR_VERSION="${VERSION_PAIR%:*}" ERLANG_VERSION="${VERSION_PAIR#*:}"
             - sem-version erlang $ERLANG_VERSION
