@@ -1,4 +1,4 @@
-FROM hexpm/elixir:1.16.2-erlang-26.1.2-alpine-3.16.9
+FROM hexpm/elixir-arm64:1.19.5-erlang-28.4.1-alpine-3.20.9
 
 RUN apk --update add postgresql-client
 RUN apk add git
