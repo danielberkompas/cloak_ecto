@@ -11,12 +11,6 @@ defmodule Cloak.Ecto.MixProject do
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [
-        coveralls: :test,
-        "coveralls.detail": :test,
-        "coveralls.post": :test,
-        "coveralls.html": :test
-      ],
       source_url: @source_url,
       description: "Encrypted fields for Ecto",
       package: package(),
@@ -31,6 +25,15 @@ defmodule Cloak.Ecto.MixProject do
     [
       extra_applications: [:logger]
     ]
+  end
+
+  def cli do
+    [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ]
   end
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
